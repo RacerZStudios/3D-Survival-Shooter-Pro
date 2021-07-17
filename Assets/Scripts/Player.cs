@@ -17,12 +17,20 @@ public class Player : MonoBehaviour
     public float mouseX;
     public float mouseY;
 
+    private Camera mainCam; 
+
     private void Start()
     {
         controller = gameObject.GetComponent<CharacterController>();
         if(controller == null)
         {
             Debug.Log(controller + "Character Controller is Null"); 
+        }
+
+        mainCam = Camera.main;
+        if(mainCam == null)
+        {
+            Debug.LogError(mainCam + "Main Camera is Null"); 
         }
     }
 
@@ -38,7 +46,13 @@ public class Player : MonoBehaviour
         // transform.eulerAngles = new Vector3(transform.localEulerAngles.x, transform.localEulerAngles.y + mouseX, transform.localEulerAngles.z); 
         Vector3 currentRotation = transform.localEulerAngles;
         currentRotation.y += mouseX;
-        transform.rotation = Quaternion.AngleAxis(currentRotation.y, Vector3.up); 
+        transform.localRotation = Quaternion.AngleAxis(currentRotation.y, Vector3.up);
+
+        // Look up and down
+        Vector3 currentCameraRotation = mainCam.gameObject.transform.localEulerAngles;
+        currentCameraRotation.x -= mouseY;
+        // mainCam.gameObject.transform.localEulerAngles = currentCameraRotation; 
+        mainCam.gameObject.transform.localRotation = Quaternion.AngleAxis(currentCameraRotation.x, Vector3.right); 
 
     }
 

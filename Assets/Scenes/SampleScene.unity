@@ -449,6 +449,8 @@ MonoBehaviour:
   playerSpeed: 5
   jumpHeight: 10
   gravityValue: -9.81
+  mouseX: 0
+  mouseY: 0
 --- !u!136 &1587575768
 CapsuleCollider:
   m_ObjectHideFlags: 0
