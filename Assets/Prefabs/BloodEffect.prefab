@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 3453128031264182772}
   - component: {fileID: 3274120963980622556}
   m_Layer: 0
-  m_Name: Blood_Splatter_2
+  m_Name: BloodEffect
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -112,6 +112,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 8729043021112652020}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 114d5704c04aa3b4db4ac2fc971f6627, type: 3}
+  m_Script: {fileID: 11500000, guid: d1a564939c7fc2849ba9775ba5851fb3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 

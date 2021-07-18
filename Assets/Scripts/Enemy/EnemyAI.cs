@@ -32,7 +32,7 @@ public class EnemyAI : MonoBehaviour
 
     private void Start()
     {
-        controller = GetComponent<CharacterController>(); 
+        controller = GetComponentInChildren<CharacterController>(); 
         if(controller == null)
         {
             Debug.LogError("Character Controller is Null"); 
