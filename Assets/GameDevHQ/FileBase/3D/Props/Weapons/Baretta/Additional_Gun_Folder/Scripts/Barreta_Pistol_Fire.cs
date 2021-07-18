@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Gun_Fire_Pistol : MonoBehaviour
+public class Barreta_Pistol_Fire : MonoBehaviour
 {
     [SerializeField]
     private ParticleSystem _smoke;
@@ -60,6 +60,12 @@ public class Gun_Fire_Pistol : MonoBehaviour
             {
                 _anim.SetBool("Fire", false);
             }
+        }
+
+        // modified by zac 
+        if(Input.GetKeyDown(KeyCode.R))
+        {
+            _anim.SetTrigger("Reload"); 
         }
     }
 
