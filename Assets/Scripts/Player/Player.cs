@@ -27,6 +27,7 @@ public class Player : MonoBehaviour
 
     public float mouseX;
     public float mouseY;
+    private float yVelocity; 
 
     private void Start()
     {
@@ -80,24 +81,26 @@ public class Player : MonoBehaviour
 
     private void CharacterMovement()
     {
+        float horizontal = Input.GetAxisRaw("Horizontal");
+        float vertical = Input.GetAxisRaw("Vertical");
+
+        direction = new Vector3(horizontal, 0, vertical);
+        velocity = direction * playerSpeed;
+
+        velocity = transform.TransformDirection(velocity); // velocity turned into local space to world space 
+
         if (controller.isGrounded == true)
         {
-            float horizontal = Input.GetAxisRaw("Horizontal");
-            float vertical = Input.GetAxisRaw("Vertical");
-
-            direction = new Vector3(horizontal, 0, vertical);
-            velocity = direction * playerSpeed;
-
             // Changes the height position of the player..
             if (Input.GetKeyDown(KeyCode.Space) && controller.isGrounded)
             {
-                velocity.y = jumpHeight;
+                yVelocity = jumpHeight;
             }
         }
 
-        velocity.y += gravityValue * Time.deltaTime;
+        yVelocity -= jumpHeight * Time.deltaTime; 
 
-        velocity = transform.TransformDirection(velocity); // velocity turned into local space to world space 
+        velocity.y = yVelocity; // set velocity 
 
         controller.Move(velocity * Time.deltaTime);
     }
