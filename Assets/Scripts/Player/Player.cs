@@ -72,13 +72,14 @@ public class Player : MonoBehaviour
         // Look up and down
         Vector3 currentCameraRotation = mainCam.gameObject.transform.localEulerAngles;
         currentCameraRotation.x -= mouseY * mainCamSensityvity;
+        // Clamp camera rotation 
+        currentCameraRotation.x = Mathf.Clamp(currentCameraRotation.x, 0, 15); 
         // mainCam.gameObject.transform.localEulerAngles = currentCameraRotation; 
         mainCam.gameObject.transform.localRotation = Quaternion.AngleAxis(currentCameraRotation.x, Vector3.right);
     }
 
     private void CharacterMovement()
     {
-
         if (controller.isGrounded == true)
         {
             float horizontal = Input.GetAxisRaw("Horizontal");
