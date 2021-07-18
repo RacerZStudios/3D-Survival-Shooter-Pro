@@ -79,6 +79,16 @@ public class EnemyAI : MonoBehaviour
         }
     }
 
+    public void StartAttack()
+    {
+        enemyState = EnemyState.Attack;
+    }
+
+    public void StopAttack()
+    {
+        enemyState = EnemyState.Chase;
+    }
+
     private void EnemyMovement()
     {
         // check if grounded 
@@ -101,23 +111,5 @@ public class EnemyAI : MonoBehaviour
 
         // move to velovity 
         controller.Move(velocity * Time.deltaTime);
-    }
-
-    private void OnTriggerStay(Collider other)
-    {
-        if (other.gameObject.name == "Player")
-        {
-            // In Attack State 
-            enemyState = EnemyState.Attack; 
-        }
-    }
-
-    private void OnTriggerExit(Collider other)
-    {
-        if (other.gameObject.name == "Player")
-        {
-            // In Attack State 
-            enemyState = EnemyState.Chase;
-        }
     }
 }
