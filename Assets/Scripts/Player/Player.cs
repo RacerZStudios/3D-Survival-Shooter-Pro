@@ -25,7 +25,12 @@ public class Player : MonoBehaviour
 
     public float mouseX;
     public float mouseY;
-    private float yVelocity; 
+    private float yVelocity;
+
+    [Header("Animation")]
+    private Animator anim;
+    public bool isIdle;
+    public bool isWalk; 
 
     private void Start()
     {
@@ -42,6 +47,11 @@ public class Player : MonoBehaviour
         if(mainCam == null)
         {
             Debug.LogError(mainCam + "Main Camera is Null"); 
+        }
+
+        if(anim != null)
+        {
+            anim = GetComponent<Animator>(); 
         }
     }
 

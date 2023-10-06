@@ -42,7 +42,10 @@ public class Barreta_Pistol_Fire : MonoBehaviour
             {
                 _anim.SetTrigger("Fire");
             }
-
+        }
+        else if (Input.GetKey(KeyCode.Mouse0))
+        {
+            FullAuto = true; 
             if (FullAuto == true)
             {
                 _anim.SetBool("Automatic_Fire", true);

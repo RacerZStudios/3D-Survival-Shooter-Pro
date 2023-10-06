@@ -6,15 +6,15 @@ public class Health : MonoBehaviour
 {
     [Header("Health Info")]
     [SerializeField]
-    private int maxHealth;
+    private int maxHealth = 100;
     [SerializeField]
-    private int minHealth;
+    private int minHealth = 0;
     [SerializeField]
-    private int currentHealh;
+    protected int currentHealh;
 
     private void Start()
     {
-        currentHealh = maxHealth; 
+        maxHealth = currentHealh; 
     }
 
     // damage (int damageAmount) 
@@ -27,9 +27,9 @@ public class Health : MonoBehaviour
     public void Damage(int damageAmount)
     {
         currentHealh -= damageAmount; 
-
         if(currentHealh <= minHealth)
         {
+            Debug.Log(gameObject.name + ToString()); 
             Destroy(gameObject); 
         }
     }

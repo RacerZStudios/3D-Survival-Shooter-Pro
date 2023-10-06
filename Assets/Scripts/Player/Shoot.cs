@@ -8,6 +8,10 @@ public class Shoot : MonoBehaviour
     private GameObject bloodSplat;
     //[SerializeField]
     //private LayerMask layerToHit; 
+
+    [SerializeField]
+    private int numPress;
+
     private void Update()
     {
         Fire(); 
@@ -32,9 +36,24 @@ public class Shoot : MonoBehaviour
                     // blood splat effect 
                     // position of raycast hit 
                     // rotate toward hit normal (surface normal) 
-                    Instantiate(bloodSplat, hit.point, Quaternion.LookRotation(hit.normal)); 
-                    health.Damage(50);
-                }
+                    Instantiate(bloodSplat, hit.point, Quaternion.LookRotation(hit.normal));
+                    health.Damage(5);
+                    // check how many times hit
+                    Debug.Log(5, health);
+                    if (Input.GetKeyDown(KeyCode.Mouse0))
+                    {
+                        numPress++;
+                        if (numPress >= 10)
+                        {
+                            Debug.Log("Reached 10");
+                            if (numPress >= 10 && health != null)
+                            {
+                                health.Damage(100);
+                                Destroy(GameObject.Find("Zombie_Rigged"));
+                            }
+                        }
+                    }
+                }               
             }
         }
     }
