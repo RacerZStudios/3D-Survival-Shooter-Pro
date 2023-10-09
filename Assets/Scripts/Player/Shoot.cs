@@ -9,12 +9,22 @@ public class Shoot : MonoBehaviour
     //[SerializeField]
     //private LayerMask layerToHit; 
 
+    // get full auto bool 
+    [SerializeField]
+    private Barreta_Pistol_Fire isFullAuto;
+
     [SerializeField]
     private int numPress;
 
+    [SerializeField]
+    public ExplosiveBarrel[] barrel;
+
+    [SerializeField]
+    private const int numExplosive = 3; 
+
     private void Update()
     {
-        Fire(); 
+        Fire();
     }
 
     private void Fire()
@@ -31,7 +41,7 @@ public class Shoot : MonoBehaviour
             {
                 Debug.Log(hit.collider.name + "Hit");
                 Health health = hit.collider.GetComponent<Health>();
-                if(health != null)
+                if (health != null)
                 {
                     // blood splat effect 
                     // position of raycast hit 
@@ -53,7 +63,16 @@ public class Shoot : MonoBehaviour
                             }
                         }
                     }
-                }               
+                }
+                if (hit.collider.tag == "E_Barrel" && gameObject != null)
+                {
+                    Debug.Log(hit);
+                    ExplosiveBarrel g = FindObjectOfType<ExplosiveBarrel>(); 
+                    for(int i = 0; i < numExplosive; i++)
+                    {
+                        g.Explode(); 
+                    }
+                }
             }
         }
     }

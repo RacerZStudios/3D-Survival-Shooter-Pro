@@ -24,8 +24,11 @@ public class EnemyAI_Patrol : MonoBehaviour
 
     private void Update()
     {
-        if (_agent.enabled == true)
+        if (_agent.enabled == true && _target != null)
+        {
             _agent.SetDestination(_target.position);
+            return; 
+        }
     }
 
     public void Damage(int amount)

@@ -21,7 +21,7 @@ MonoBehaviour:
     value: 0
   color:
     overrideState: 1
-    value: {r: 0, g: 0, b: 0, a: 1}
+    value: {r: 0.3584906, g: 0.05461998, b: 0, a: 1}
   center:
     overrideState: 1
     value: {x: 0.5, y: 0.5}
@@ -30,7 +30,7 @@ MonoBehaviour:
     value: 0.43
   smoothness:
     overrideState: 1
-    value: 0.2
+    value: 0.43
   roundness:
     overrideState: 1
     value: 1
@@ -141,7 +141,7 @@ MonoBehaviour:
     defaultState: 4
   ldrLutContribution:
     overrideState: 1
-    value: 1
+    value: 0.59
   temperature:
     overrideState: 1
     value: 100
@@ -167,14 +167,14 @@ MonoBehaviour:
     overrideState: 1
     value: 0
   mixerRedOutRedIn:
-    overrideState: 0
-    value: 100
+    overrideState: 1
+    value: 180
   mixerRedOutGreenIn:
     overrideState: 1
-    value: 0
+    value: -25
   mixerRedOutBlueIn:
     overrideState: 1
-    value: 0
+    value: -200
   mixerGreenOutRedIn:
     overrideState: 0
     value: 0
@@ -195,13 +195,13 @@ MonoBehaviour:
     value: 100
   lift:
     overrideState: 1
-    value: {x: 1, y: 1, z: 1, w: 0}
+    value: {x: 0.79412335, y: 0.923207, z: 1, w: -0.080429055}
   gamma:
     overrideState: 1
-    value: {x: 1, y: 1, z: 1, w: 0}
+    value: {x: 1, y: 0.89630145, z: 0.8748001, w: 0}
   gain:
     overrideState: 1
-    value: {x: 1, y: 0.9645022, z: 0.8416664, w: 0.26354325}
+    value: {x: 0.9673893, y: 1, z: 0.9514626, w: 0.31716254}
   masterCurve:
     overrideState: 0
     value:
