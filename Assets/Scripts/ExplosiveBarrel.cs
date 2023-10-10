@@ -81,7 +81,7 @@ public class ExplosiveBarrel : MonoBehaviour
 
         if(gameObject != null)
         {
-            Collider[] contacts = Physics.OverlapSphere(transform.position, 15);
+            Collider[] contacts = Physics.OverlapSphere(transform.position, 25);
 
             foreach (Collider collider in contacts)
             {
@@ -133,13 +133,13 @@ public class ExplosiveBarrel : MonoBehaviour
 
         if (gameObject != null)
         {
-            Collider[] contacts = Physics.OverlapSphere(transform.position, 30);
+            Collider[] contacts = Physics.OverlapSphere(transform.position, 55);
 
             foreach (Collider collider in contacts)
             {
                 if (collider.CompareTag("Zombie") && explode == true)
                 {
-                    Destroy(collider.gameObject, 6);
+                    Destroy(collider.gameObject);
                 }
             }
         }
@@ -150,18 +150,21 @@ public class ExplosiveBarrel : MonoBehaviour
             {
                 if(hit.collider.tag == "F_Barrel" && hit.collider.tag != "E_Barrel")
                 {
-                    // Debug.Log(hit.collider.name + "Hit Yellow");
-                    StartCoroutine(FireParticleSpawnYellow());
-
-                    particleSystems[1].gameObject.SetActive(true);
-                    GameObject f = this.gameObject;
-                    if (f != null)
+                    if (explosionParticle == true || initparticle == false && gameObject != null)
                     {
-                        f.transform.position = transform.position;
-                    }
-                    else if (gameObject == null)
-                    {
-                        Debug.LogError("Particle System Destroyed");
+                        // Debug.Log(hit.collider.name + "Hit Yellow");
+                        StartCoroutine(FireParticleSpawnYellow());
+                      //   StartCoroutine(ExplosionParticleYellow()); 
+                        particleSystems[1].gameObject.SetActive(true);
+                        GameObject f = this.gameObject;
+                        if (f != null)
+                        {
+                            f.transform.position = transform.position;
+                        }
+                        else if (gameObject == null)
+                        {
+                            Debug.LogError("Particle System Destroyed");
+                        }
                     }
                 }             
             }
@@ -213,7 +216,7 @@ public class ExplosiveBarrel : MonoBehaviour
         particleSystems[1].Simulate(1, true, true);
         particleSystems[1].Play();
         particleSystems[1].Emit(10);
-        rb.AddExplosionForce(15, transform.position, 15, 25);
+        rb.AddExplosionForce(35, transform.position, 25, 35);
         //   Debug.Log("Exploded");
         explosionParticle = false;
         yield return new WaitForEndOfFrame();
@@ -240,10 +243,10 @@ public class ExplosiveBarrel : MonoBehaviour
         particleSystems[1].Simulate(1, true, true);
         particleSystems[1].Play();
         particleSystems[1].Emit(10);
-        rb.AddExplosionForce(30, transform.position, 35, 5);
+        rb.AddExplosionForce(55, transform.position, 55, 100);
         //   Debug.Log("Exploded");
         explosionParticle = false;
-        yield return new WaitForSeconds(6f);
+        yield return new WaitForEndOfFrame();
         Destroy(gameObject, 0.3f);
     }
 }

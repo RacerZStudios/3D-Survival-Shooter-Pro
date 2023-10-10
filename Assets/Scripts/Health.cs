@@ -12,9 +12,13 @@ public class Health : MonoBehaviour
     [SerializeField]
     protected int currentHealh;
 
+    private Animator anim;
+    public bool isDead = false; 
+
     private void Start()
     {
-        maxHealth = currentHealh; 
+        maxHealth = currentHealh;
+        anim = GetComponentInParent<Animator>(); 
     }
 
     // damage (int damageAmount) 
@@ -32,8 +36,19 @@ public class Health : MonoBehaviour
         currentHealh -= damageAmount; 
         if(currentHealh <= minHealth)
         {
-           // Debug.Log(gameObject.name + ToString()); 
-            Destroy(gameObject); // player dead 
+            isDead = true; 
+            // Debug.Log(gameObject.name + ToString()); 
+            if(isDead == true)
+            {
+                anim.SetTrigger("Dead");
+                anim.SetBool("Idle", false); 
+                if(gameObject.tag == "Player" && isDead == true)
+                {
+                    GameObject.Find("Player").GetComponent<CharacterController>().enabled = false;
+                    GameObject.Find("Baretta").GetComponent<Barreta_Pistol_Fire>().enabled = false; 
+                }
+              //  Destroy(gameObject, 12); // player dead 
+            }
            // restart game / load level 
            // spawn restart ui 
         }

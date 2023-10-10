@@ -50,6 +50,9 @@ public class Shoot : MonoBehaviour
                     // rotate toward hit normal (surface normal) 
                     Instantiate(bloodSplat, hit.point, Quaternion.LookRotation(hit.normal));
                     health.Damage(5);
+                    EnemyAI_Patrol patrol = hit.collider.GetComponent<EnemyAI_Patrol>();
+                    patrol.isHit = true;
+                    patrol.GetComponent<Animator>().SetTrigger("Hit"); 
                     // check how many times hit
                    // Debug.Log(5, health);
                     if (Input.GetKeyDown(KeyCode.Mouse0))
@@ -61,7 +64,8 @@ public class Shoot : MonoBehaviour
                             if (numPress >= 10 && health != null)
                             {
                                 health.Damage(100);
-                                Destroy(GameObject.Find("Zombie_Rigged"));
+                                patrol.GetComponent<Animator>().SetTrigger("Dead");
+                                Destroy(GameObject.Find("Zombie_Rigged"), 3);
                             }
                         }
                     }

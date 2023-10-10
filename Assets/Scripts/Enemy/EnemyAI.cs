@@ -28,11 +28,18 @@ public class EnemyAI : MonoBehaviour
 
     [SerializeField]
     private float attackDelay = 1.5f; 
-    private float nextAttack = -1; 
+    private float nextAttack = -1;
+
+    [SerializeField]
+    private Animator animator; 
 
     private void Start()
     {
-        controller = GetComponentInChildren<CharacterController>(); 
+        controller = GetComponentInChildren<CharacterController>();
+        if(animator == null)
+        {
+            animator = GetComponent<Animator>();
+        }
         if(controller == null)
         {
             Debug.LogError("Character Controller is Null"); 
@@ -49,7 +56,7 @@ public class EnemyAI : MonoBehaviour
             Debug.LogError("Player Components are Null"); 
         }
 
-        enemyState = EnemyState.Idle; 
+        enemyState = EnemyState.Idle;
     }
 
     private void Update()
@@ -71,6 +78,9 @@ public class EnemyAI : MonoBehaviour
     {
         if (target != null)
         {
+
+            animator.SetBool("Idle", false);
+            animator.SetTrigger("Walking");
             Vector3.MoveTowards(transform.position, target.transform.position, nextAttack);
         }
     }
@@ -91,6 +101,7 @@ public class EnemyAI : MonoBehaviour
 
     public void StartAttack()
     {
+        animator.SetTrigger("Walking");
         enemyState = EnemyState.Attack;
     }
 
@@ -101,6 +112,7 @@ public class EnemyAI : MonoBehaviour
 
     public void Idle()
     {
+        animator.SetBool("Idle", true); 
         enemyState = EnemyState.Idle; 
     }
 
@@ -109,6 +121,7 @@ public class EnemyAI : MonoBehaviour
         // check if grounded 
         if (controller.isGrounded == true && gameObject != null)
         {
+            animator.SetBool("Idle", false);
             enemyState = EnemyState.Chase;
             Chase(); 
             // calculate direction = destination (target) - start (self)

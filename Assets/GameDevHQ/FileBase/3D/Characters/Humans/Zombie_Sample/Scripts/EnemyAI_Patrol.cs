@@ -14,6 +14,7 @@ public class EnemyAI_Patrol : MonoBehaviour
     [SerializeField]
     private float _health = 100f;
     private Animator _anim;
+    public bool isHit = false; 
 
     // Start is called before the first frame update
     void Start()
@@ -42,12 +43,17 @@ public class EnemyAI_Patrol : MonoBehaviour
     {
         _health -= amount;
         _agent.speed = 0;
-        _anim.SetTrigger("Hit");
+        isHit = true; 
+        if(isHit == true)
+        {
+            _anim.SetTrigger("Hit");
 
+        }
         if (_health < 1)
         {
             _agent.speed = 0;
             _anim.SetTrigger("Dead");
+            _anim.SetBool("isIdle", false); 
             _agent.enabled = false;
         }
         else

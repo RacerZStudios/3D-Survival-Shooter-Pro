@@ -28,6 +28,7 @@ public class Player : MonoBehaviour
     private float yVelocity;
 
     [Header("Animation")]
+    [SerializeField]
     private Animator anim;
     public bool isIdle;
     public bool isWalk; 
@@ -51,7 +52,7 @@ public class Player : MonoBehaviour
 
         if(anim != null)
         {
-            anim = GetComponent<Animator>(); 
+            anim = gameObject.GetComponent<Animator>(); 
         }
     }
 
@@ -99,6 +100,24 @@ public class Player : MonoBehaviour
 
         if (controller.isGrounded == true)
         {
+            isIdle = true; 
+            if(isIdle == true && velocity.magnitude > 0)
+            {
+                isIdle = false;
+                isWalk = true;
+                anim.SetBool("isIdle", false);
+                anim.SetBool("Walk", true);
+            }
+            else
+            {
+                isWalk = false;
+                isIdle = true;
+                if(isIdle == true)
+                {
+                    anim.SetBool("Walk", false);
+                    anim.SetBool("isIdle", true);
+                }
+            }
             // Changes the height position of the player..
             if (Input.GetKeyDown(KeyCode.Space) && controller.isGrounded)
             {
@@ -110,6 +129,9 @@ public class Player : MonoBehaviour
 
         velocity.y = yVelocity; // set velocity 
 
-        controller.Move(velocity * Time.deltaTime);
+        if(controller.enabled == true)
+        {
+            controller.Move(velocity * Time.deltaTime);
+        }
     }
 }
