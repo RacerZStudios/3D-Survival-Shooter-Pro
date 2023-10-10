@@ -20,7 +20,9 @@ public class Shoot : MonoBehaviour
     public ExplosiveBarrel[] barrel;
 
     [SerializeField]
-    private const int numExplosive = 3; 
+    private const int numExplosive = 3;
+
+    public bool red, yellow, green; 
 
     private void Update()
     {
@@ -35,11 +37,11 @@ public class Shoot : MonoBehaviour
 
         Debug.DrawRay(ray.origin, Vector3.forward, Color.blue);
 
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButtonDown(0) && isFullAuto.semiAuto == true || isFullAuto.fullAuto == true)
         {
             if (Physics.Raycast(ray, out hit, Mathf.Infinity, 1 << 8 | 1 << 0)) // << bit shift operator and | or both layers 
             {
-                Debug.Log(hit.collider.name + "Hit");
+               // Debug.Log(hit.collider.name + "Hit");
                 Health health = hit.collider.GetComponent<Health>();
                 if (health != null)
                 {
@@ -49,13 +51,13 @@ public class Shoot : MonoBehaviour
                     Instantiate(bloodSplat, hit.point, Quaternion.LookRotation(hit.normal));
                     health.Damage(5);
                     // check how many times hit
-                    Debug.Log(5, health);
+                   // Debug.Log(5, health);
                     if (Input.GetKeyDown(KeyCode.Mouse0))
                     {
                         numPress++;
                         if (numPress >= 10)
                         {
-                            Debug.Log("Reached 10");
+                           //  Debug.Log("Reached 10");
                             if (numPress >= 10 && health != null)
                             {
                                 health.Damage(100);
@@ -64,13 +66,33 @@ public class Shoot : MonoBehaviour
                         }
                     }
                 }
-                if (hit.collider.tag == "E_Barrel" && gameObject != null)
+
+                else if (hit.collider.tag == "E_Barrel")
                 {
-                    Debug.Log(hit);
-                    ExplosiveBarrel g = FindObjectOfType<ExplosiveBarrel>(); 
+                    red = true; 
+                    // Debug.Log(hit);
+                    ExplosiveBarrel g = FindObjectOfType<ExplosiveBarrel>();
+                   // g.transform.position = hit.transform.position; 
                     for(int i = 0; i < numExplosive; i++)
                     {
-                        g.Explode(); 
+                        if(red == true)
+                        {
+                            g.ExplodeRed();
+                        }
+                    }
+                }
+                else if (hit.collider.tag == "F_Barrel")
+                {
+                    yellow = true; 
+                    // Debug.Log(hit);
+                    ExplosiveBarrel f = FindObjectOfType<ExplosiveBarrel>();
+                    // g.transform.position = hit.transform.position; 
+                    for (int i = 0; i < numExplosive; i++)
+                    {
+                        if(yellow == true)
+                        {
+                            f.ExplodeYellow();
+                        }
                     }
                 }
             }

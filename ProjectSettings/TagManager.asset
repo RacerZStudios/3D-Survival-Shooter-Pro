@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Zombie
   - E_Barrel
+  - F_Barrel
   layers:
   - Default
   - TransparentFX

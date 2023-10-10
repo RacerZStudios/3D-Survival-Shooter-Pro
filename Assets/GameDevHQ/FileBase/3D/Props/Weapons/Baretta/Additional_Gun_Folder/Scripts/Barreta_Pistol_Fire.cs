@@ -24,7 +24,8 @@ public class Barreta_Pistol_Fire : MonoBehaviour
     [SerializeField]
     private AudioSource _audioSource;
 
-    public bool FullAuto;
+    public bool fullAuto = false;
+    public bool semiAuto = true;  
     
     // Start is called before the first frame update
     void Start()
@@ -37,32 +38,31 @@ public class Barreta_Pistol_Fire : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Mouse0))
         {
-            Debug.Log("Shoot gun");
-            if (FullAuto == false)
-            {
-                _anim.SetTrigger("Fire");
-            }
+            // Debug.Log("Shoot gun");
+            semiAuto = true;
+            _anim.SetBool("Automatic_Fire", false);
+            FireGunParticles();
         }
-        else if (Input.GetKey(KeyCode.Mouse0))
+        else if(Input.GetKey(KeyCode.Mouse0))
         {
-            FullAuto = true; 
-            if (FullAuto == true)
+            fullAuto = true; 
+            if(fullAuto == true)
             {
+                semiAuto = false;
                 _anim.SetBool("Automatic_Fire", true);
+                FireGunParticlesFullAuto(); 
             }
         }
- 
-        if (Input.GetKeyUp(KeyCode.Mouse0))
-        {
-            if (FullAuto == true)
-            {
-                _anim.SetBool("Automatic_Fire", false);
-            }
 
-            if (FullAuto == false)
-            {
-                _anim.SetBool("Fire", false);
-            }
+        if(Input.GetKeyUp(KeyCode.Mouse0))
+        {
+            fullAuto = false;
+            semiAuto = false;
+            _anim.SetBool("Automatic_Fire", false);
+        }
+        else
+        {
+            _anim.SetTrigger("Idle"); 
         }
 
         // modified by zac 
@@ -74,17 +74,38 @@ public class Barreta_Pistol_Fire : MonoBehaviour
 
     public void FireGunParticles()
     {
-        Debug.Log("Fired gun particles");
-        _smoke.Play();
-        _bulletCasing.Play();
-        _muzzleFlashSide.Play();
-        _Muzzle_Flash_Front.Play();
-        GunFireAudio();
+        if(fullAuto == false)
+        {
+            // Debug.Log("Fired gun particles");
+            _smoke.Play();
+            _bulletCasing.Play();
+            _muzzleFlashSide.Play();
+            _Muzzle_Flash_Front.Play();
+            GunFireAudio();
+        }    
+    }
+
+    public void FireGunParticlesFullAuto()
+    {
+        if (fullAuto == true)
+        {
+            _smoke.Play();
+            _bulletCasing.Play();
+            _muzzleFlashSide.Play();
+            _Muzzle_Flash_Front.Play();
+            GunFireAudioFull(); 
+        }
     }
 
     public void GunFireAudio()
     {
         _audioSource.pitch = Random.Range(0.9f, 1.1f);
         _audioSource.PlayOneShot(_gunShotAudioClip);
+    }
+
+    public void GunFireAudioFull()
+    {
+        _audioSource.pitch = Random.Range(0.3f, 1.4f);
+        _audioSource.PlayDelayed(delay:0.15f);
     }
 }

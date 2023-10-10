@@ -27,6 +27,13 @@ public class EnemyAI_Patrol : MonoBehaviour
         if (_agent.enabled == true && _target != null)
         {
             _agent.SetDestination(_target.position);
+            if(_agent.transform.position.z > 2)
+            {
+                if(Vector3.Distance(transform.position, _agent.transform.position) > 3)
+                {
+                    Vector3.MoveTowards(_agent.transform.position, _target.transform.position, 5); 
+                }
+            }
             return; 
         }
     }

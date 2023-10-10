@@ -32,7 +32,7 @@ public class Health : MonoBehaviour
         currentHealh -= damageAmount; 
         if(currentHealh <= minHealth)
         {
-            Debug.Log(gameObject.name + ToString()); 
+           // Debug.Log(gameObject.name + ToString()); 
             Destroy(gameObject); // player dead 
            // restart game / load level 
            // spawn restart ui 

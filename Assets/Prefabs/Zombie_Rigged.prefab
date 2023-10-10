@@ -23,7 +23,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 235557759275334041}
-  m_LocalRotation: {x: -0, y: -0, z: -4.6566123e-10, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 1, z: 3}
   m_LocalScale: {x: 1, y: 2, z: 1}
   m_Children:
@@ -75,7 +75,7 @@ SphereCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.76891524
+  m_Radius: 5
   m_Center: {x: 0, y: 0, z: -0.0830157}
 --- !u!114 &4595891741789672779
 MonoBehaviour:
@@ -99,8 +99,8 @@ CapsuleCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 1
   m_Enabled: 1
-  m_Radius: 0.5325606
-  m_Height: 1.551136
+  m_Radius: 5
+  m_Height: 1.5
   m_Direction: 1
   m_Center: {x: 0.03256048, y: 0.2755684, z: 0}
 --- !u!1 &8562877595170877841
@@ -299,7 +299,7 @@ NavMeshAgent:
   m_Acceleration: 4.5
   avoidancePriority: 50
   m_AngularSpeed: 120
-  m_StoppingDistance: 0
+  m_StoppingDistance: 5
   m_AutoTraverseOffMeshLink: 1
   m_AutoBraking: 1
   m_AutoRepath: 1
@@ -321,7 +321,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _agent: {fileID: 8562877596717662632}
   _target: {fileID: 0}
-  _speed: 1.5
+  _speed: 5
   _health: 100
 --- !u!143 &8562877595443582498
 CharacterController:
@@ -353,8 +353,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ee0b7a2fd6e64e54bab3d16cfa5c76e0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemyState: 2
-  speed: 2
+  enemyState: 0
+  speed: 5
   gravity: 20
   attackDelay: 1.5
 --- !u!114 &8562877595443582499

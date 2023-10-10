@@ -4917,12 +4917,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   barrel: {fileID: 5774716360317986345}
-  rb: {fileID: 0}
+  rb: {fileID: 5324395090896372506}
   particleSystems:
   - {fileID: 7629333320865482311}
   - {fileID: 2093808097932936236}
   initparticle: 0
   explosionParticle: 0
+  explosiveBarrel:
+  - {fileID: 5774716360317986350}
+  fuseTime: 0
+  explode: 0
 --- !u!54 &5324395090896372506
 Rigidbody:
   m_ObjectHideFlags: 0

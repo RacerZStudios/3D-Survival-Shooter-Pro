@@ -48,6 +48,8 @@ public class EnemyAI : MonoBehaviour
         {
             Debug.LogError("Player Components are Null"); 
         }
+
+        enemyState = EnemyState.Idle; 
     }
 
     private void Update()
@@ -65,15 +67,23 @@ public class EnemyAI : MonoBehaviour
         }
     }
 
+    private void Chase()
+    {
+        if (target != null)
+        {
+            Vector3.MoveTowards(transform.position, target.transform.position, nextAttack);
+        }
+    }
+
     private void Attack()
     {
         // cooldown system 
-        if (Time.time > nextAttack)
+        if (Time.time > nextAttack && controller.isGrounded)
         {
             // damage player 
             if (playerHealth != null)
             {
-                playerHealth.Damage(10);
+                playerHealth.Damage(1);
             }
             nextAttack = Time.time + attackDelay;
         }
@@ -89,27 +99,38 @@ public class EnemyAI : MonoBehaviour
         enemyState = EnemyState.Chase;
     }
 
+    public void Idle()
+    {
+        enemyState = EnemyState.Idle; 
+    }
+
     private void EnemyMovement()
     {
         // check if grounded 
-        if (controller.isGrounded == true)
+        if (controller.isGrounded == true && gameObject != null)
         {
+            enemyState = EnemyState.Chase;
+            Chase(); 
             // calculate direction = destination (target) - start (self)
-            Vector3 direction = target.position - transform.position;
-            direction.y = 0;
-            direction.Normalize();
-            // rotate towards the player 
-            transform.localRotation = Quaternion.LookRotation(direction);
-            // calculate velocity = direction * speed 
-            velocity = direction * speed;
+            if(target != null)
+            {
+                Vector3 direction = target.position - transform.position;
+                // direction.y = 0;
+                // direction.Normalize();
+                // rotate towards the player 
+                transform.LookAt(target);
+                transform.localRotation = Quaternion.LookRotation(direction);
+                // calculate velocity = direction * speed 
+                velocity = direction * speed;
+
+                velocity = transform.TransformDirection(velocity);
+
+                // subtract gravity from velocity direction y 
+                velocity.y -= gravity;
+
+                // move to velovity 
+                controller.Move(velocity * Time.deltaTime);
+            }       
         }
-
-        velocity = transform.TransformDirection(velocity);
-
-        // subtract gravity from velocity direction y 
-        velocity.y -= gravity;
-
-        // move to velovity 
-        controller.Move(velocity * Time.deltaTime);
     }
 }
