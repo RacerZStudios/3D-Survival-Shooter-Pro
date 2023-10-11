@@ -31,7 +31,14 @@ public class Player : MonoBehaviour
     [SerializeField]
     private Animator anim;
     public bool isIdle;
-    public bool isWalk; 
+    public bool isWalk;
+
+    [SerializeField]
+    private PowerBox power1;
+    [SerializeField]
+    private PowerBox power2;
+    [SerializeField]
+    private PowerBox power3;
 
     private void Start()
     {
@@ -64,6 +71,13 @@ public class Player : MonoBehaviour
         if(Input.GetKeyDown(KeyCode.Escape))
         {
             Cursor.lockState = CursorLockMode.None; 
+        }
+
+        if(power1.p1Restored == true && power2.p2Restored == true && power3.p3Restored == true)
+        {
+            Debug.Log("Power Restoration Complete"); 
+            // return to main menu 
+            // end game 
         }
     }
 
@@ -101,7 +115,7 @@ public class Player : MonoBehaviour
         if (controller.isGrounded == true)
         {
             isIdle = true; 
-            if(isIdle == true && velocity.magnitude > 0)
+            if(isIdle == true && direction.magnitude > 0)
             {
                 isIdle = false;
                 isWalk = true;
