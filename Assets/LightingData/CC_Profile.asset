@@ -21,13 +21,13 @@ MonoBehaviour:
     value: 0
   color:
     overrideState: 1
-    value: {r: 0.3584906, g: 0.05461998, b: 0, a: 1}
+    value: {r: 1, g: 1, b: 1, a: 1}
   center:
     overrideState: 1
     value: {x: 0.5, y: 0.5}
   intensity:
     overrideState: 1
-    value: 0.43
+    value: 0.4
   smoothness:
     overrideState: 1
     value: 0.43
@@ -147,19 +147,19 @@ MonoBehaviour:
     value: 100
   tint:
     overrideState: 1
-    value: -6
+    value: -13
   colorFilter:
     overrideState: 1
-    value: {r: 1, g: 1, b: 1, a: 1}
+    value: {r: 0.20754719, g: 0.20754719, b: 0.20754719, a: 1}
   hueShift:
     overrideState: 1
-    value: -3
+    value: 1
   saturation:
     overrideState: 1
-    value: -17
+    value: 13
   brightness:
     overrideState: 1
-    value: 48
+    value: 85
   postExposure:
     overrideState: 0
     value: 0
@@ -198,7 +198,7 @@ MonoBehaviour:
     value: {x: 0.79412335, y: 0.923207, z: 1, w: -0.080429055}
   gamma:
     overrideState: 1
-    value: {x: 1, y: 0.89630145, z: 0.8748001, w: 0}
+    value: {x: 1, y: 0.89630145, z: 0.8748001, w: -0.054274082}
   gain:
     overrideState: 1
     value: {x: 0.9673893, y: 1, z: 0.9514626, w: 0.31716254}
