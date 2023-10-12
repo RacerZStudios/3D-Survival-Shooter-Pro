@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.UI; 
 using UnityEngine;
+using UnityEngine.SceneManagement; 
 using System;
 
 public class Player : MonoBehaviour
@@ -72,10 +73,15 @@ public class Player : MonoBehaviour
         {
             Cursor.lockState = CursorLockMode.None; 
         }
+        else if(Input.GetKeyDown(KeyCode.Mouse1))
+        {
+            Cursor.lockState = CursorLockMode.Locked;
+        }
 
         if(power1.p1Restored == true && power2.p2Restored == true && power3.p3Restored == true)
         {
-            Debug.Log("Power Restoration Complete"); 
+            Cursor.lockState = CursorLockMode.None;
+            SceneManager.LoadScene(0); 
             // return to main menu 
             // end game 
         }
