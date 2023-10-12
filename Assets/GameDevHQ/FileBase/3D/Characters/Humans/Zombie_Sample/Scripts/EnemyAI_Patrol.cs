@@ -55,6 +55,7 @@ public class EnemyAI_Patrol : MonoBehaviour
             _anim.SetTrigger("Dead");
             _anim.SetBool("isIdle", false); 
             _agent.enabled = false;
+            isHit = false; 
         }
         else
         {

@@ -41,7 +41,8 @@ public class Health : MonoBehaviour
             if(isDead == true)
             {
                 anim.SetTrigger("Dead");
-                anim.SetBool("Idle", false); 
+                anim.SetBool("Idle", false);
+                StartCoroutine(WaitToDisable()); 
                 if(gameObject.tag == "Player" && isDead == true)
                 {
                     GameObject.Find("Player").GetComponent<CharacterController>().enabled = false;
@@ -52,5 +53,13 @@ public class Health : MonoBehaviour
            // restart game / load level 
            // spawn restart ui 
         }
+    }
+
+    private IEnumerator WaitToDisable()
+    {
+        yield return new WaitForSeconds(8);
+        CharacterController controller = GetComponentInParent<CharacterController>();
+        controller.enabled = false;
+        anim.enabled = false;
     }
 }
