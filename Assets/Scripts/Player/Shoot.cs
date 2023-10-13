@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.UI; 
 using UnityEngine;
 
 public class Shoot : MonoBehaviour
@@ -22,7 +23,34 @@ public class Shoot : MonoBehaviour
     [SerializeField]
     private const int numExplosive = 3;
 
-    public bool red, yellow, green; 
+    public bool red, yellow, green;
+
+    [SerializeField]
+    public Text text;
+    [SerializeField]
+    public Text newText;
+
+    [SerializeField]
+    public Shoot shootManager; 
+
+    private int score = 0; 
+
+    [SerializeField]
+    public int count;
+
+    [SerializeField]
+    private GameObject bulletPrefab;
+
+    [SerializeField]
+    private Transform bulletPos;
+
+    public bool dead;
+
+    public void AddScore()
+    {
+        score += 1;
+        text.text = score.ToString() + "Kills"; 
+    }
 
     private void Update()
     {
@@ -49,25 +77,50 @@ public class Shoot : MonoBehaviour
                     // position of raycast hit 
                     // rotate toward hit normal (surface normal) 
                     Instantiate(bloodSplat, hit.point, Quaternion.LookRotation(hit.normal));
+                    Instantiate(bulletPrefab, hit.point, Quaternion.LookRotation(hit.normal)); 
                     health.Damage(5);
                     EnemyAI_Patrol patrol = hit.collider.GetComponent<EnemyAI_Patrol>();
                     patrol.isHit = true;
-                    patrol.GetComponent<Animator>().SetTrigger("Hit"); 
+                    patrol.GetComponent<Animator>().SetTrigger("Hit");
                     // check how many times hit
-                   // Debug.Log(5, health);
+                    // Debug.Log(5, health);
                     if (Input.GetKeyDown(KeyCode.Mouse0))
                     {
                         numPress++;
                         if (numPress >= 10)
                         {
-                           //  Debug.Log("Reached 10");
+                            //  Debug.Log("Reached 10");
                             if (numPress >= 10 && health != null)
                             {
                                 health.Damage(100);
                                 patrol.GetComponent<Animator>().SetTrigger("Dead");
-                                Destroy(GameObject.Find("Zombie_Rigged"), 3);
+
+                                // Destroy(GameObject.Find("Zombie_Rigged"), 3);
                             }
                         }
+                    }
+
+                   else if (patrol.isHit == true && health.isDead == true)
+                    {
+                        dead = true; 
+                        if(dead == true)
+                        {
+                            if(count == 0 || count != 0)
+                            {
+                                count++;
+                                Debug.Log(count);
+                                shootManager.AddScore(); 
+                            }
+
+                            if (text != null)
+                            {
+                                newText.text = "Zombies Killed: " + score.ToString();
+                                Debug.Log("AIDead");
+                            }
+                        }
+                        EnemyAI enemyAI = FindObjectOfType<EnemyAI>();
+                        enemyAI.isDead();
+                        patrol.GetComponent<CharacterController>().enabled = false;
                     }
                 }
 

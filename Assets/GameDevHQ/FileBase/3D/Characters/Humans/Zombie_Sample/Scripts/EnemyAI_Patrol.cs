@@ -14,7 +14,9 @@ public class EnemyAI_Patrol : MonoBehaviour
     [SerializeField]
     private float _health = 100f;
     private Animator _anim;
-    public bool isHit = false; 
+    public bool isHit = false;
+
+    public int zombieDead; 
 
     // Start is called before the first frame update
     void Start()
@@ -30,7 +32,7 @@ public class EnemyAI_Patrol : MonoBehaviour
             _agent.SetDestination(_target.position);
             if(_agent.transform.position.z > 2)
             {
-                if(Vector3.Distance(transform.position, _agent.transform.position) > 3)
+                if(Vector3.Distance(_target.transform.position, _agent.transform.position) > 3)
                 {
                     Vector3.MoveTowards(_agent.transform.position, _target.transform.position, 5); 
                 }
@@ -55,12 +57,17 @@ public class EnemyAI_Patrol : MonoBehaviour
             _anim.SetTrigger("Dead");
             _anim.SetBool("isIdle", false); 
             _agent.enabled = false;
-            isHit = false; 
+            isHit = false;
         }
         else
         {
             StartCoroutine(HitRoutine());
         }
+    }
+
+    public void GetCount()
+    {
+        zombieDead++; 
     }
 
     IEnumerator HitRoutine()

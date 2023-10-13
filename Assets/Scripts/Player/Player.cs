@@ -16,7 +16,7 @@ public class Player : MonoBehaviour
     private float jumpHeight = 10.0f;
 
     private Vector3 direction;
-    private Vector3 velocity; 
+    private Vector3 velocity;
 
     private Camera mainCam;
 
@@ -44,44 +44,44 @@ public class Player : MonoBehaviour
     private void Start()
     {
         // lock cursor when game starts v
-        Cursor.lockState = CursorLockMode.Locked; 
+        Cursor.lockState = CursorLockMode.Locked;
 
         controller = gameObject.GetComponent<CharacterController>();
-        if(controller == null)
+        if (controller == null)
         {
-            Debug.Log(controller + "Character Controller is Null"); 
+            Debug.Log(controller + "Character Controller is Null");
         }
 
         mainCam = Camera.main;
-        if(mainCam == null)
+        if (mainCam == null)
         {
-            Debug.LogError(mainCam + "Main Camera is Null"); 
+            Debug.LogError(mainCam + "Main Camera is Null");
         }
 
-        if(anim != null)
+        if (anim != null)
         {
-            anim = gameObject.GetComponent<Animator>(); 
+            anim = gameObject.GetComponent<Animator>();
         }
     }
 
     void Update()
-    {        
+    {
         CharacterMovement();
-        CameraControl(); 
+        CameraControl();
 
-        if(Input.GetKeyDown(KeyCode.Escape))
+        if (Input.GetKeyDown(KeyCode.Escape))
         {
-            Cursor.lockState = CursorLockMode.None; 
+            Cursor.lockState = CursorLockMode.None;
         }
-        else if(Input.GetKeyDown(KeyCode.Mouse1))
+        else if (Input.GetKeyDown(KeyCode.Mouse1))
         {
             Cursor.lockState = CursorLockMode.Locked;
         }
 
-        if(power1.p1Restored == true && power2.p2Restored == true && power3.p3Restored == true)
+        if (power1.p1Restored == true && power2.p2Restored == true && power3.p3Restored == true)
         {
             Cursor.lockState = CursorLockMode.None;
-            SceneManager.LoadScene(0); 
+            SceneManager.LoadScene(0);
             // return to main menu 
             // end game 
         }
@@ -103,7 +103,7 @@ public class Player : MonoBehaviour
         Vector3 currentCameraRotation = mainCam.gameObject.transform.localEulerAngles;
         currentCameraRotation.x -= mouseY * mainCamSensityvity;
         // Clamp camera rotation 
-        currentCameraRotation.x = Mathf.Clamp(currentCameraRotation.x, 0, 15); 
+        currentCameraRotation.x = Mathf.Clamp(currentCameraRotation.x, 0, 15);
         // mainCam.gameObject.transform.localEulerAngles = currentCameraRotation; 
         mainCam.gameObject.transform.localRotation = Quaternion.AngleAxis(currentCameraRotation.x, Vector3.right);
     }
@@ -118,38 +118,39 @@ public class Player : MonoBehaviour
 
         velocity = transform.TransformDirection(velocity); // velocity turned into local space to world space 
 
-        if (controller.isGrounded == true)
+        if (controller.isGrounded == true && horizontal > 0 || vertical > 0)
         {
-            isIdle = true; 
-            if(isIdle == true && direction.magnitude > 0)
+            isIdle = false;
+            if (isIdle == false)
             {
-                isIdle = false;
                 isWalk = true;
                 anim.SetBool("isIdle", false);
                 anim.SetBool("Walk", true);
             }
-            else
+        }
+        if (controller.isGrounded == true && horizontal < 1 || vertical < 1)
+        {
+            isWalk = false;
+            isIdle = true;
+            if (isIdle == true)
             {
-                isWalk = false;
-                isIdle = true;
-                if(isIdle == true)
-                {
-                    anim.SetBool("Walk", false);
-                    anim.SetBool("isIdle", true);
-                }
-            }
-            // Changes the height position of the player..
-            if (Input.GetKeyDown(KeyCode.Space) && controller.isGrounded)
-            {
-                yVelocity = jumpHeight;
+                anim.SetBool("Walk", false);
+                anim.SetBool("isIdle", true);
             }
         }
 
-        yVelocity -= jumpHeight * Time.deltaTime; 
+
+        // Changes the height position of the player..
+        if (Input.GetKeyDown(KeyCode.Space) && controller.isGrounded)
+        {
+            yVelocity = jumpHeight;
+        }
+
+        yVelocity -= jumpHeight * Time.deltaTime;
 
         velocity.y = yVelocity; // set velocity 
 
-        if(controller.enabled == true)
+        if (controller.enabled == true)
         {
             controller.Move(velocity * Time.deltaTime);
         }

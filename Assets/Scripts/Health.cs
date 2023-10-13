@@ -13,7 +13,7 @@ public class Health : MonoBehaviour
     protected int currentHealh;
 
     private Animator anim;
-    public bool isDead = false; 
+    public bool isDead = false;
 
     private void Start()
     {
@@ -42,7 +42,7 @@ public class Health : MonoBehaviour
             {
                 anim.SetTrigger("Dead");
                 anim.SetBool("Idle", false);
-                StartCoroutine(WaitToDisable()); 
+                StartCoroutine(WaitToDisable());
                 if(gameObject.tag == "Player" && isDead == true)
                 {
                     GameObject.Find("Player").GetComponent<CharacterController>().enabled = false;

@@ -7,17 +7,48 @@ public class PauseGame : MonoBehaviour
     [SerializeField]
     private GameObject pauseMenu;
 
-    private void Update()
+    public int i;
+
+    public bool pauseMenuActive = false;
+
+    // Start is called before the first frame update
+    void Start()
     {
-        if(Input.GetKeyDown(KeyCode.P) || Input.GetKeyDown(KeyCode.Escape))
+        if (pauseMenu != null)
         {
-            pauseMenu.SetActive(true);
-            Time.timeScale = 0; 
+            pauseMenu.gameObject.SetActive(false);
         }
-        else if(Input.GetKeyDown(KeyCode.Tab))
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape))
         {
-            pauseMenu.SetActive(false);
-            Time.timeScale = 1; 
+            i += 1;
+            if (i > 0 && i < 2)
+            {
+                pauseMenuActive = true;
+                pauseMenu.gameObject.SetActive(true);
+                i += 1;
+                Time.timeScale = 0; 
+                return;
+            }
         }
+        if (Input.GetKeyDown(KeyCode.Escape) && pauseMenuActive == true)
+        {
+            if (i > 0 && i > 2)
+            {
+                i = 0;
+                pauseMenuActive = false;
+                pauseMenu.gameObject.SetActive(false);
+                Time.timeScale = 1; 
+            }
+        }
+    }
+
+    public void ResumeGame()
+    {
+        Time.timeScale = 1; 
     }
 }

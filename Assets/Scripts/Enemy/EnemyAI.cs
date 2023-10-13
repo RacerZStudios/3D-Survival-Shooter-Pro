@@ -96,6 +96,7 @@ public class EnemyAI : MonoBehaviour
                 playerHealth.Damage(1);
             }
             nextAttack = Time.time + attackDelay;
+            animator.SetTrigger("Attack"); 
         }
     }
 
@@ -114,6 +115,17 @@ public class EnemyAI : MonoBehaviour
     {
         animator.SetBool("Idle", true); 
         enemyState = EnemyState.Idle; 
+    }
+
+    public bool isDead()
+    {
+        Shoot shot = FindObjectOfType<Shoot>();
+        if(shot.dead == true)
+        {
+            Debug.Log("Dead"); 
+        }
+
+        return true; 
     }
 
     private void EnemyMovement()
@@ -142,7 +154,11 @@ public class EnemyAI : MonoBehaviour
                 velocity.y -= gravity;
 
                 // move to velovity 
-                controller.Move(velocity * Time.deltaTime);
+                if(controller != null && controller.enabled == true)
+                {
+                    controller.Move(velocity * Time.deltaTime);
+                    return;  
+                }
             }       
         }
     }
