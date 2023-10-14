@@ -77,7 +77,7 @@ public class Shoot : MonoBehaviour
                     // position of raycast hit 
                     // rotate toward hit normal (surface normal) 
                     Instantiate(bloodSplat, hit.point, Quaternion.LookRotation(hit.normal));
-                    Instantiate(bulletPrefab, hit.point, Quaternion.LookRotation(hit.normal)); 
+                   // Instantiate(bulletPrefab, hit.point, Quaternion.LookRotation(hit.normal)); 
                     health.Damage(5);
                     EnemyAI_Patrol patrol = hit.collider.GetComponent<EnemyAI_Patrol>();
                     patrol.isHit = true;
@@ -114,7 +114,7 @@ public class Shoot : MonoBehaviour
 
                             if (text != null)
                             {
-                                newText.text = "Zombies Killed: " + score.ToString();
+                                newText.text = " Zombies Killed: " + score.ToString();
                                 Debug.Log("AIDead");
                             }
                         }
@@ -126,13 +126,13 @@ public class Shoot : MonoBehaviour
 
                 else if (hit.collider.tag == "E_Barrel")
                 {
-                    red = true; 
+                    red = true;
                     // Debug.Log(hit);
                     ExplosiveBarrel g = FindObjectOfType<ExplosiveBarrel>();
-                   // g.transform.position = hit.transform.position; 
-                    for(int i = 0; i < numExplosive; i++)
+                    // g.transform.position = hit.transform.position; 
+                    for (int i = 0; i < numExplosive; i++)
                     {
-                        if(red == true)
+                        if (red == true)
                         {
                             g.ExplodeRed();
                         }
@@ -140,13 +140,13 @@ public class Shoot : MonoBehaviour
                 }
                 else if (hit.collider.tag == "F_Barrel")
                 {
-                    yellow = true; 
+                    yellow = true;
                     // Debug.Log(hit);
                     ExplosiveBarrel f = FindObjectOfType<ExplosiveBarrel>();
                     // g.transform.position = hit.transform.position; 
                     for (int i = 0; i < numExplosive; i++)
                     {
-                        if(yellow == true)
+                        if (yellow == true)
                         {
                             f.ExplodeYellow();
                         }

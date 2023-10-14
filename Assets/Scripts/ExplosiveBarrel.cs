@@ -13,8 +13,10 @@ public class ExplosiveBarrel : MonoBehaviour
     [SerializeField]
     public ParticleSystem[] particleSystems = new ParticleSystem[2];
 
-    public bool initparticle = false;
-    public bool explosionParticle = false;
+    public bool initparticleRed = false;
+    public bool explosionParticleRed = false;
+    public bool initparticleYellow = false;
+    public bool explosionParticleYellow = false;
 
     [SerializeField]
     private ExplosiveBarrel[] explosiveBarrel;
@@ -28,7 +30,7 @@ public class ExplosiveBarrel : MonoBehaviour
 
     private void Awake()
     {
-        if(barrel != null)
+        if (barrel != null)
         {
             barrel = gameObject;
             mat = barrel.GetComponent<MeshRenderer>(); 
@@ -63,22 +65,58 @@ public class ExplosiveBarrel : MonoBehaviour
 
         var findObjects = FindObjectsOfType<GameObject>();
         findObjects.Length.ToString();
+
+
+        if (barrel == null)
+        {
+            Debug.LogError("Barrel is null");
+        }
+        else
+        {
+            barrel.GetComponent<GameObject>();
+        }
+
+    }
+
+    private void LateUpdate()
+    {
+        foreach (ExplosiveBarrel explosiveBarrel in explosiveBarrel)
+        {
+            if (barrel != null)
+            {
+                explosiveBarrel.explosiveBarrel.Clone().Equals(barrel);
+            }
+        }
     }
 
     public void FindBarrelInstance()
     {
-        if (gameObject.tag == "F_Barrel")
+        Vector3 centerPos = new Vector3(0.5f, 0.5f, 0);
+        RaycastHit hit;
+        Ray ray = Camera.main.ViewportPointToRay(centerPos);
+
+        Debug.DrawRay(ray.origin, Vector3.forward, Color.blue);
+
+        if (Input.GetMouseButtonDown(0))
         {
-            isYellow = true;
-        }
-        else if (gameObject.tag == "E_Barrel")
-        {
-            isRed = true;
+            if (Physics.Raycast(ray, out hit, Mathf.Infinity, 1 << 8 | 1 << 0))
+            {
+                if (hit.collider.CompareTag("E_Barrel"))
+                {
+                    isRed = true;
+                }
+                else if (hit.collider.CompareTag("F_Barrel"))
+                {
+                    isYellow = true;
+                }
+            }        
         }
     }
 
     public void ExplodeRed()
     {
+        isRed = true; 
+
         if(barrel != null)
         {
             barrel = GetComponent<GameObject>();
@@ -97,7 +135,7 @@ public class ExplosiveBarrel : MonoBehaviour
 
             foreach (Collider collider in contacts)
             {
-                if (collider.CompareTag("Zombie") && explosionParticle == true)
+                if (collider.CompareTag("Zombie"))
                 {
                     Destroy(collider.gameObject);
                 }
@@ -111,9 +149,9 @@ public class ExplosiveBarrel : MonoBehaviour
                 if(hit.collider.gameObject.tag == "E_Barrel")
                 {
                     Debug.Log(hit.collider.name + "Hit Red");
-                    StartCoroutine(FireParticleSpawn());
+                    StartCoroutine(TimerRed()); 
 
-                    if (explosionParticle == true)
+                    if (explosionParticleRed == true)
                     {
                         particleSystems[1].gameObject.SetActive(true);
                         GameObject g = barrel.gameObject;
@@ -133,10 +171,11 @@ public class ExplosiveBarrel : MonoBehaviour
 
     public void ExplodeYellow()
     {
+        isYellow = true; 
+
         if (barrel != null)
         {
             barrel = GetComponent<GameObject>();
-            ExplosionParticleYellow(); 
             return;
         }
 
@@ -152,7 +191,7 @@ public class ExplosiveBarrel : MonoBehaviour
 
             foreach (Collider collider in contacts)
             {
-                if (collider.CompareTag("Zombie") && explosionParticle == true)
+                if (collider.CompareTag("Zombie"))
                 {
                     Destroy(collider.gameObject);
                 }
@@ -161,14 +200,13 @@ public class ExplosiveBarrel : MonoBehaviour
 
         if (Input.GetMouseButtonDown(0) && isYellow == true)
         {
-            if (Physics.Raycast(ray, out hit, Mathf.Infinity)) // << bit shift operator and | or both layers 
+            if (Physics.Raycast(ray, out hit, Mathf.Infinity)) 
             {
                 if (hit.collider.gameObject.tag == "F_Barrel")
                 {
                     Debug.Log(hit.collider.name + "Hit Yellow");
-                    StartCoroutine(FireParticleSpawnYellow());
-
-                    if (explosionParticle == true)
+                    StartCoroutine(TimerYellow()); 
+                    if (explosionParticleRed == true)
                     {
                         particleSystems[1].gameObject.SetActive(true);
                         GameObject g = barrel.gameObject;
@@ -186,64 +224,78 @@ public class ExplosiveBarrel : MonoBehaviour
         }
     }
 
-    private void LateUpdate()
+    private IEnumerator TimerRed()
     {
-        FindBarrelInstance(); 
-        while(initparticle == true)
+        fuseTime++; 
+        if(fuseTime >= 3)
         {
-            fuseTime++;
-            StartCoroutine(Timer());
-            break; 
+            StartCoroutine(FireParticleSpawn()); 
+            if(initparticleRed == true && isRed == true)
+            {
+                explode = true;
+                if (explosionParticleRed == true)
+                {
+                    initparticleRed = false; 
+                    StartCoroutine(ExplosionParticleRed());
+                    yield return new WaitForSeconds(1f);
+                }
+            }        
         }
     }
 
-    private IEnumerator Timer()
+    private IEnumerator TimerYellow()
     {
-        if(fuseTime >= 3)
+        fuseTime++;
+        if (fuseTime >= 3)
         {
-            initparticle = false; 
-            explode = true;
-            if (explosionParticle == true)
+            StartCoroutine(FireParticleSpawnYellow());
+            if (initparticleYellow == true && isYellow == true)
             {
-                StartCoroutine(ExplosionParticle());
-                yield return new WaitForSeconds(1f);
-                StopCoroutine(Timer());
-                Destroy(gameObject, 3); 
+                explode = true;
+                if (explosionParticleYellow == true)
+                {
+                    initparticleYellow = false;
+                    StartCoroutine(ExplosionParticleYellow());
+                    yield return new WaitForSeconds(1f);
+                }
             }
         }
     }
 
     private IEnumerator FireParticleSpawn()
     {
+        initparticleRed = true;
+        particleSystems[0].Clear();
         particleSystems[0].Play();
-        initparticle = true;
-        mat.material.color = Color.red; 
+        mat.material.color = Color.red;
         yield return new WaitForSeconds(4f);
-        initparticle = false;
-        explosionParticle = true;
+        initparticleRed = false;
+        explosionParticleRed = true;
+        
     }
 
-    private IEnumerator ExplosionParticle()
-    {
-        explode = true; 
-        particleSystems[1].gameObject.SetActive(true); 
+    private IEnumerator ExplosionParticleRed()
+    {      
+        explode = true;
+        particleSystems[1].gameObject.SetActive(true);
         particleSystems[1].Simulate(1, true, true);
         particleSystems[1].Play();
         particleSystems[1].Emit(10);
         rb.AddExplosionForce(35, transform.position, 25, 35);
-        explosionParticle = false;
+        explosionParticleRed = false;
         yield return new WaitForEndOfFrame();
-        Destroy(gameObject, 2f);
+        Destroy(gameObject, 2f);         
     }
 
     private IEnumerator FireParticleSpawnYellow()
     {
+        initparticleYellow = true; 
+        particleSystems[0].Clear();
         particleSystems[0].Play();
-        initparticle = true;
         mat.material.color = Color.blue;
         yield return new WaitForSeconds(6f);
-        initparticle = false;
-        explosionParticle = true;
+        initparticleYellow = false;
+        explosionParticleYellow = true;        
     }
 
     private IEnumerator ExplosionParticleYellow()
@@ -254,8 +306,8 @@ public class ExplosiveBarrel : MonoBehaviour
         particleSystems[1].Play();
         particleSystems[1].Emit(10);
         rb.AddExplosionForce(55, transform.position, 55, 100);
-        explosionParticle = false;
+        explosionParticleYellow = false;
         yield return new WaitForEndOfFrame();
-        Destroy(gameObject, 4f);
+        Destroy(gameObject, 4f);      
     }
 }
