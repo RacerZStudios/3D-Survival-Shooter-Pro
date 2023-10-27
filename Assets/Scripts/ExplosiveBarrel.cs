@@ -65,28 +65,6 @@ public class ExplosiveBarrel : MonoBehaviour
 
         var findObjects = FindObjectsOfType<GameObject>();
         findObjects.Length.ToString();
-
-
-        if (barrel == null)
-        {
-            Debug.LogError("Barrel is null");
-        }
-        else
-        {
-            barrel.GetComponent<GameObject>();
-        }
-
-    }
-
-    private void LateUpdate()
-    {
-        foreach (ExplosiveBarrel explosiveBarrel in explosiveBarrel)
-        {
-            if (barrel != null)
-            {
-                explosiveBarrel.explosiveBarrel.Clone().Equals(barrel);
-            }
-        }
     }
 
     public void FindBarrelInstance()
@@ -99,7 +77,7 @@ public class ExplosiveBarrel : MonoBehaviour
 
         if (Input.GetMouseButtonDown(0))
         {
-            if (Physics.Raycast(ray, out hit, Mathf.Infinity, 1 << 8 | 1 << 0))
+            if (Physics.Raycast(ray, out hit, Mathf.Infinity, 1 << 8 | 1 << 0)) // << bit shift operator and | or both layers ( 1 << 8 | 1 << 0) 
             {
                 if (hit.collider.CompareTag("E_Barrel"))
                 {
@@ -116,12 +94,6 @@ public class ExplosiveBarrel : MonoBehaviour
     public void ExplodeRed()
     {
         isRed = true; 
-
-        if(barrel != null)
-        {
-            barrel = GetComponent<GameObject>();
-            return; 
-        }
 
         Vector3 centerPos = new Vector3(0.5f, 0.5f, 0);
         RaycastHit hit;
@@ -142,9 +114,9 @@ public class ExplosiveBarrel : MonoBehaviour
             }
         }
 
-        if (Input.GetMouseButtonDown(0) && isRed == true)
+        if (Input.GetMouseButtonDown(0))
         {
-            if (Physics.Raycast(ray, out hit, Mathf.Infinity)) // << bit shift operator and | or both layers ( 1 << 8 | 1 << 0) 
+            if (Physics.Raycast(ray, out hit, Mathf.Infinity)) 
             {
                 if(hit.collider.gameObject.tag == "E_Barrel")
                 {
@@ -173,12 +145,6 @@ public class ExplosiveBarrel : MonoBehaviour
     {
         isYellow = true; 
 
-        if (barrel != null)
-        {
-            barrel = GetComponent<GameObject>();
-            return;
-        }
-
         Vector3 centerPos = new Vector3(0.5f, 0.5f, 0);
         RaycastHit hit;
         Ray ray = Camera.main.ViewportPointToRay(centerPos);
@@ -198,7 +164,7 @@ public class ExplosiveBarrel : MonoBehaviour
             }
         }
 
-        if (Input.GetMouseButtonDown(0) && isYellow == true)
+        if (Input.GetMouseButtonDown(0))
         {
             if (Physics.Raycast(ray, out hit, Mathf.Infinity)) 
             {
