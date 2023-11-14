@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 [RequireComponent(typeof(Rigidbody))]
-public class ExplosiveBarrel : MonoBehaviour
+public class ExplosiveBarrel : MonoBehaviour 
 {
     [SerializeField]
     public GameObject barrel;
@@ -26,7 +26,7 @@ public class ExplosiveBarrel : MonoBehaviour
     public bool explode = false;
     public bool isRed, isYellow = false;
 
-    private static int barrelCount = 6; 
+    private static int barrelCount = 6;
 
     private void Awake()
     {
@@ -67,131 +67,81 @@ public class ExplosiveBarrel : MonoBehaviour
         findObjects.Length.ToString();
     }
 
-    public void FindBarrelInstance()
+    private void OnDrawGizmos()
     {
-        Vector3 centerPos = new Vector3(0.5f, 0.5f, 0);
-        RaycastHit hit;
-        Ray ray = Camera.main.ViewportPointToRay(centerPos);
-
-        Debug.DrawRay(ray.origin, Vector3.forward, Color.blue);
-
-        if (Input.GetMouseButtonDown(0))
-        {
-            if (Physics.Raycast(ray, out hit, Mathf.Infinity, 1 << 8 | 1 << 0)) // << bit shift operator and | or both layers ( 1 << 8 | 1 << 0) 
-            {
-                if (hit.collider.CompareTag("E_Barrel"))
-                {
-                    isRed = true;
-                }
-                else if (hit.collider.CompareTag("F_Barrel"))
-                {
-                    isYellow = true;
-                }
-            }        
-        }
+        Gizmos.color = Color.white;
+        Gizmos.DrawSphere(transform.position, 45); 
     }
 
     public void ExplodeRed()
     {
-        isRed = true; 
+        StartCoroutine(TimerRed());
 
-        Vector3 centerPos = new Vector3(0.5f, 0.5f, 0);
-        RaycastHit hit;
-        Ray ray = Camera.main.ViewportPointToRay(centerPos);
-
-        Debug.DrawRay(ray.origin, Vector3.forward, Color.blue);
-
-        if(gameObject != null)
+        if (isRed == true)
         {
-            Collider[] contacts = Physics.OverlapSphere(transform.position, 25);
-
-            foreach (Collider collider in contacts)
+            if (explosionParticleRed == true)
             {
-                if (collider.CompareTag("Zombie"))
-                {
-                    Destroy(collider.gameObject);
-                }
-            }
-        }
+                GameObject g = barrel.gameObject;
+                g.transform.parent = transform;
 
-        if (Input.GetMouseButtonDown(0))
-        {
-            if (Physics.Raycast(ray, out hit, Mathf.Infinity)) 
-            {
-                if(hit.collider.gameObject.tag == "E_Barrel")
+                StartCoroutine(ExplosionParticleRed()); 
+                if (gameObject != null)
                 {
-                    Debug.Log(hit.collider.name + "Hit Red");
-                    StartCoroutine(TimerRed()); 
+                    Collider[] contacts = Physics.OverlapSphere(transform.position, 15);
 
-                    if (explosionParticleRed == true)
+                    foreach (Collider collider in contacts)
                     {
-                        particleSystems[1].gameObject.SetActive(true);
-                        GameObject g = barrel.gameObject;
-                        if (g != null)
+                        if (collider.CompareTag("Zombie"))
                         {
-                            g.transform.position = transform.position;
+                            // play dead animation Zombie 
+                            collider.gameObject.GetComponent<Animator>().SetTrigger("Dead"); 
                         }
                     }
-                    else if (gameObject == null)
-                    {
-                        Debug.LogError("Particle System Destroyed");
-                    }
-                }              
+                }
+            }
+            else if (gameObject == null)
+            {
+                Debug.LogError("Particle System Destroyed");
             }
         }
     }
 
     public void ExplodeYellow()
     {
-        isYellow = true; 
+        StartCoroutine(TimerYellow());
 
-        Vector3 centerPos = new Vector3(0.5f, 0.5f, 0);
-        RaycastHit hit;
-        Ray ray = Camera.main.ViewportPointToRay(centerPos);
-
-        Debug.DrawRay(ray.origin, Vector3.forward, Color.blue);
-
-        if (gameObject != null)
+        if (isYellow == true)
         {
-            Collider[] contacts = Physics.OverlapSphere(transform.position, 55);
-
-            foreach (Collider collider in contacts)
+            if (explosionParticleYellow == true)
             {
-                if (collider.CompareTag("Zombie"))
-                {
-                    Destroy(collider.gameObject);
-                }
-            }
-        }
+                GameObject f = barrel.gameObject;
+                f.transform.parent = transform; 
 
-        if (Input.GetMouseButtonDown(0))
-        {
-            if (Physics.Raycast(ray, out hit, Mathf.Infinity)) 
-            {
-                if (hit.collider.gameObject.tag == "F_Barrel")
+                StartCoroutine(ExplosionParticleYellow());
+                if (gameObject != null)
                 {
-                    Debug.Log(hit.collider.name + "Hit Yellow");
-                    StartCoroutine(TimerYellow()); 
-                    if (explosionParticleRed == true)
+                    Collider[] contacts = Physics.OverlapSphere(transform.position, 25);
+
+                    foreach (Collider collider in contacts)
                     {
-                        particleSystems[1].gameObject.SetActive(true);
-                        GameObject g = barrel.gameObject;
-                        if (g != null)
+                        if (collider.CompareTag("Zombie"))
                         {
-                            g.transform.position = transform.position;
+                            // play dead animation Zombie 
+                            collider.gameObject.GetComponent<Animator>().SetTrigger("Dead");
                         }
                     }
                 }
-                else if (gameObject == null)
-                {
-                    Debug.LogError("Particle System Destroyed");
-                }          
+            }
+            else if (gameObject == null)
+            {
+                Debug.LogError("Particle System Destroyed");
             }
         }
     }
 
     private IEnumerator TimerRed()
     {
+        isRed = true; 
         fuseTime++; 
         if(fuseTime >= 3)
         {
@@ -202,7 +152,6 @@ public class ExplosiveBarrel : MonoBehaviour
                 if (explosionParticleRed == true)
                 {
                     initparticleRed = false; 
-                    StartCoroutine(ExplosionParticleRed());
                     yield return new WaitForSeconds(1f);
                 }
             }        
@@ -211,17 +160,17 @@ public class ExplosiveBarrel : MonoBehaviour
 
     private IEnumerator TimerYellow()
     {
+        isYellow = true; 
         fuseTime++;
         if (fuseTime >= 3)
         {
             StartCoroutine(FireParticleSpawnYellow());
             if (initparticleYellow == true && isYellow == true)
             {
-                explode = true;
+                explosionParticleYellow = true;
                 if (explosionParticleYellow == true)
                 {
                     initparticleYellow = false;
-                    StartCoroutine(ExplosionParticleYellow());
                     yield return new WaitForSeconds(1f);
                 }
             }
@@ -241,7 +190,7 @@ public class ExplosiveBarrel : MonoBehaviour
     }
 
     private IEnumerator ExplosionParticleRed()
-    {      
+    {
         explode = true;
         particleSystems[1].gameObject.SetActive(true);
         particleSystems[1].Simulate(1, true, true);
@@ -271,7 +220,7 @@ public class ExplosiveBarrel : MonoBehaviour
         particleSystems[1].Simulate(1, true, true);
         particleSystems[1].Play();
         particleSystems[1].Emit(10);
-        rb.AddExplosionForce(55, transform.position, 55, 100);
+        rb.AddExplosionForce(15, transform.position, 25, 0);
         explosionParticleYellow = false;
         yield return new WaitForEndOfFrame();
         Destroy(gameObject, 4f);      

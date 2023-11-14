@@ -323,6 +323,8 @@ MonoBehaviour:
   _target: {fileID: 0}
   _speed: 5
   _health: 100
+  isHit: 0
+  zombieDead: 0
 --- !u!143 &8562877595443582498
 CharacterController:
   m_ObjectHideFlags: 0
@@ -357,6 +359,7 @@ MonoBehaviour:
   speed: 5
   gravity: 20
   attackDelay: 1.5
+  animator: {fileID: 0}
 --- !u!114 &8562877595443582499
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -372,6 +375,7 @@ MonoBehaviour:
   maxHealth: 350
   minHealth: 50
   currentHealh: 350
+  isDead: 0
 --- !u!1 &8562877595507379619
 GameObject:
   m_ObjectHideFlags: 0

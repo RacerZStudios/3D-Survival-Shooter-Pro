@@ -41,8 +41,14 @@ public class Player : MonoBehaviour
     [SerializeField]
     private PowerBox power3;
 
+    public GameObject ammoSupply;
+
+    public bool ammoPickUp;
+
     private void Start()
     {
+        ammoPickUp = false; 
+
         // lock cursor when game starts v
         Cursor.lockState = CursorLockMode.Locked;
 
@@ -84,6 +90,16 @@ public class Player : MonoBehaviour
             SceneManager.LoadScene(0);
             // return to main menu 
             // end game 
+        }
+
+        if (Input.GetKeyDown(KeyCode.R) && ammoPickUp == true)
+        {
+            ammoSupply.GetComponent<GunAmmo>().Ammo += 10;
+            ammoSupply.GetComponent<GunAmmo>().ammoText.text = ammoSupply.ToString();
+            if(ammoPickUp == true)
+            {
+                ammoPickUp = false; 
+            }
         }
     }
 
@@ -155,4 +171,14 @@ public class Player : MonoBehaviour
             controller.Move(velocity * Time.deltaTime);
         }
     }
+
+    private void OnControllerColliderHit(ControllerColliderHit hit)
+    {
+        if (hit.gameObject.name == "Cube")
+        {
+            ammoPickUp = true;
+            Debug.Log("Cube");
+            Destroy(hit.gameObject);
+        }
+    } 
 }

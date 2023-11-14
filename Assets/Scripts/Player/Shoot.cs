@@ -46,6 +46,11 @@ public class Shoot : MonoBehaviour
 
     public bool dead;
 
+    private void Awake()
+    {
+        newText.text = " Zombies Killed: ";
+    }
+
     public void AddScore()
     {
         score += 1;

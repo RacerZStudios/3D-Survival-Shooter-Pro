@@ -109,6 +109,7 @@ public class EnemyAI : MonoBehaviour
     public void StopAttack()
     {
         enemyState = EnemyState.Chase;
+        playerHealth.isPlayerHit = false; 
     }
 
     public void Idle()

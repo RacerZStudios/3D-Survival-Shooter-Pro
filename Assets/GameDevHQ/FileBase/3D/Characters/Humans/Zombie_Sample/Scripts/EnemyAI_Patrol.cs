@@ -16,7 +16,12 @@ public class EnemyAI_Patrol : MonoBehaviour
     private Animator _anim;
     public bool isHit = false;
 
-    public int zombieDead; 
+    public int zombieDead;
+
+    private void Awake()
+    {
+        _agent = GetComponent<NavMeshAgent>(); 
+    }
 
     // Start is called before the first frame update
     void Start()
@@ -30,6 +35,7 @@ public class EnemyAI_Patrol : MonoBehaviour
         if (_agent.enabled == true && _target != null)
         {
             _agent.SetDestination(_target.position);
+
             if(_agent.transform.position.z > 2)
             {
                 if(Vector3.Distance(_target.transform.position, _agent.transform.position) > 3)
