@@ -11,4 +11,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/ZombieShooterDemo.unity
     guid: 32c5824092127b444af717c435dd674e
+  - enabled: 1
+    path: Assets/Scenes/EndGame.unity
+    guid: d28e2f058f30e2a4db6e9a575d59b75f
   m_configObjects: {}

@@ -5,7 +5,16 @@ using UnityEngine;
 
 public class LoadGame : MonoBehaviour
 {
-   public void SaveCity()
+    private void Update()
+    {
+        if(Input.GetKeyDown(KeyCode.R))
+        {
+            SceneManager.LoadScene(1);
+            Time.timeScale = 1;
+        }
+    }
+
+    public void SaveCity()
     {
         SceneManager.LoadScene(1);
         Time.timeScale = 1; 

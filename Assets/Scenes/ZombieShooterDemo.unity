@@ -2827,6 +2827,7 @@ GameObject:
   - component: {fileID: 249675189}
   - component: {fileID: 249675188}
   - component: {fileID: 249675187}
+  - component: {fileID: 249675191}
   m_Layer: 5
   m_Name: PauseMenu
   m_TagString: Untagged
@@ -2915,6 +2916,22 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
+--- !u!114 &249675191
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 249675186}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1a7add223b3450242800002ba93b9c74, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerActions: {fileID: 615563327}
+  barreta: {fileID: 96163886}
+  gunAmmo: {fileID: 538468502}
+  paused: {fileID: 615563331}
 --- !u!1001 &253142368
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3291,11 +3308,11 @@ AudioSource:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 286478644}
-  m_Enabled: 0
+  m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 95cea90da286347f2b1efc2fe7679eda, type: 3}
-  m_PlayOnAwake: 1
+  m_PlayOnAwake: 0
   m_Volume: 0.1
   m_Pitch: 1
   Loop: 1
@@ -26724,6 +26741,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 249675191}
+        m_TargetAssemblyTypeName: RunTimeManager, Assembly-CSharp
+        m_MethodName: PlayerAction
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1690656086
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -33909,6 +33938,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 249675191}
+        m_TargetAssemblyTypeName: RunTimeManager, Assembly-CSharp
+        m_MethodName: PlayerAction
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1897854674
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -36294,6 +36335,18 @@ MonoBehaviour:
         m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
         m_MethodName: SetActive
         m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
+      - m_Target: {fileID: 249675191}
+        m_TargetAssemblyTypeName: RunTimeManager, Assembly-CSharp
+        m_MethodName: PlayerAction
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine

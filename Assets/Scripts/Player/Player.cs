@@ -177,7 +177,7 @@ public class Player : MonoBehaviour
         if (hit.gameObject.name == "Cube")
         {
             ammoPickUp = true;
-            Debug.Log("Cube");
+           // Debug.Log("Cube");
             Destroy(hit.gameObject);
         }
     } 

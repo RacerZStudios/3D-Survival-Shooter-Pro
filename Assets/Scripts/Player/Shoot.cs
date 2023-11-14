@@ -113,14 +113,14 @@ public class Shoot : MonoBehaviour
                             if(count == 0 || count != 0)
                             {
                                 count++;
-                                Debug.Log(count);
+                               // Debug.Log(count);
                                 shootManager.AddScore(); 
                             }
 
                             if (text != null)
                             {
                                 newText.text = " Zombies Killed: " + score.ToString();
-                                Debug.Log("AIDead");
+                               // Debug.Log("AIDead");
                             }
                         }
                         EnemyAI enemyAI = FindObjectOfType<EnemyAI>();

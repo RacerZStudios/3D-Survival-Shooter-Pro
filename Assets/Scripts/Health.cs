@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
-using UnityEngine.UI; 
+using UnityEngine.UI;
+using UnityEngine.SceneManagement; 
 using UnityEngine;
 
 public class Health : MonoBehaviour
@@ -22,7 +23,7 @@ public class Health : MonoBehaviour
 
     private void Awake()
     {
-        imageEffect = GetComponent<Image>(); 
+        imageEffect = GameObject.Find("Image").GetComponent<Image>();
     }
 
     private void Start()
@@ -35,7 +36,6 @@ public class Health : MonoBehaviour
     {
         if(imageEffect == null)
         {
-            imageEffect = FindObjectOfType<Image>();
             return; 
         }
     }
@@ -63,6 +63,7 @@ public class Health : MonoBehaviour
             isPlayerHit = false;
             StopCoroutine(FadeColor()); 
         }
+
         if(currentHealh <= minHealth)
         {
             isDead = true; 
@@ -75,23 +76,33 @@ public class Health : MonoBehaviour
                 if(gameObject.tag == "Player" && isDead == true)
                 {
                     GameObject.Find("Player").GetComponent<CharacterController>().enabled = false;
-                    GameObject.Find("Baretta").GetComponent<Barreta_Pistol_Fire>().enabled = false; 
+                    GameObject.Find("Baretta").GetComponent<Barreta_Pistol_Fire>().enabled = false;
+
+                    // restart game / load level 
+                    // add delay time to load scene for player animation dead 
+                    StartCoroutine(LoadEndScene()); 
+                    // spawn restart ui 
                 }
                 // player dead 
             }
-
-           // restart game / load level 
-           // spawn restart ui 
         }
+    }
+
+    private IEnumerator LoadEndScene()
+    {
+        yield return new WaitForSeconds(4);
+        SceneManager.LoadSceneAsync(2);
+        yield return null; 
     }
 
     private IEnumerator WaitToDisable()
     {
         yield return new WaitForSeconds(8);
-        CharacterController controller = GetComponentInParent<CharacterController>();
-        controller.enabled = false;
+        this.gameObject.GetComponentInChildren<AttackTrigger>().GetComponent<SphereCollider>().enabled = false;
+        this.gameObject.GetComponentInChildren<AttackTrigger>().GetComponent<CapsuleCollider>().enabled = false;
+        this.gameObject.GetComponentInParent<CharacterController>().detectCollisions = false;
+        isPlayerHit = false; 
         anim.enabled = false;
-        gameObject.GetComponentInChildren<AttackTrigger>().GetComponent<SphereCollider>().enabled = false;
     }
 
     private IEnumerator FadeColor()
