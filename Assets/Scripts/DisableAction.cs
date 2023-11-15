@@ -5,12 +5,12 @@ using UnityEngine;
 public class DisableAction : MonoBehaviour
 {
     [SerializeField]
-    private GameObject t; 
+    private GameObject objectivesText; 
     public void Disable()
     {
         if(Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.M))
         {
-            t.SetActive(false);
+            objectivesText.SetActive(false);
         }
     }
 
