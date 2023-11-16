@@ -72,7 +72,7 @@ public class Shoot : MonoBehaviour
 
         if (Input.GetMouseButtonDown(0) && isFullAuto.semiAuto == true || isFullAuto.fullAuto == true)
         {
-            if (Physics.Raycast(ray, out hit, Mathf.Infinity, 1 << 8 | 1 << 0)) // << bit shift operator and | or both layers 
+            if (Physics.Raycast(ray, out hit, Mathf.Infinity, 1 << 8 | 1 << 0)) // << bit shift operator and | or both layers masks 
             {
                // Debug.Log(hit.collider.name + "Hit");
                 Health health = hit.collider.GetComponent<Health>();
@@ -92,10 +92,10 @@ public class Shoot : MonoBehaviour
                     if (Input.GetKeyDown(KeyCode.Mouse0))
                     {
                         numPress++;
-                        if (numPress >= 10)
+                        if (numPress >= 5)
                         {
-                            //  Debug.Log("Reached 10");
-                            if (numPress >= 10 && health != null)
+                            //  Debug.Log("Reached 5");
+                            if (numPress >= 5 && health != null)
                             {
                                 health.Damage(100);
                                 patrol.GetComponent<Animator>().SetTrigger("Dead");

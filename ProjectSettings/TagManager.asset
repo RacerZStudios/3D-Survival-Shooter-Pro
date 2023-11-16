@@ -45,3 +45,6 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: lazer
+    uniqueID: 2505546873
+    locked: 0

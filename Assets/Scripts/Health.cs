@@ -73,6 +73,7 @@ public class Health : MonoBehaviour
                 anim.SetTrigger("Dead");
                 anim.SetBool("Idle", false);
                 StartCoroutine(WaitToDisable());
+
                 if(gameObject.tag == "Player" && isDead == true)
                 {
                     GameObject.Find("Player").GetComponent<CharacterController>().enabled = false;
@@ -97,11 +98,11 @@ public class Health : MonoBehaviour
 
     private IEnumerator WaitToDisable()
     {
+        isPlayerHit = false;
         yield return new WaitForSeconds(8);
         this.gameObject.GetComponentInChildren<AttackTrigger>().GetComponent<SphereCollider>().enabled = false;
         this.gameObject.GetComponentInChildren<AttackTrigger>().GetComponent<CapsuleCollider>().enabled = false;
         this.gameObject.GetComponentInParent<CharacterController>().detectCollisions = false;
-        isPlayerHit = false; 
         anim.enabled = false;
     }
 
