@@ -84,21 +84,42 @@ public class Lazer : MonoBehaviour
 
     void FixedUpdate()
     {
-        Vector3 centerPos = new Vector3(0.5f, 0.5f, 0);
+        //Vector3 centerPos = new Vector3(0.5f, 0.5f, 0);
+        //RaycastHit hit;
+        //Ray ray = Camera.main.ViewportPointToRay(centerPos);
+
+        //if (Physics.Raycast(lazerPos.transform.position, transform.TransformDirection(Vector3.forward), out hit, Mathf.Infinity))
+        //{
+        //    Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.forward) * hit.distance * 5, Color.yellow);
+
+        //    if (hit.transform.CompareTag("Zombie"))
+        //    {
+        //        particleSystem.Play();
+        //        particleSystem.Simulate(10);
+        //        particleSystem.playbackSpeed = 0.5f;
+        //        lazerLight.enabled = true;
+        //        halo.gameObject.SetActive(true); 
+        //    }
+        //    else
+        //    {
+        //        particleSystem.Clear();
+        //        particleSystem.Stop();
+        //        particleSystem.Simulate(0);
+        //        particleSystem.playbackSpeed = 0.0f;
+        //    }
+        //}
+
+        Ray ray = new Ray(transform.position, transform.forward);
         RaycastHit hit;
-        Ray ray = Camera.main.ViewportPointToRay(centerPos);
-
-        if (Physics.Raycast(lazerPos.transform.position, transform.TransformDirection(Vector3.forward), out hit, Mathf.Infinity))
+        if (Physics.Raycast(ray, out hit, 100))
         {
-            Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.forward) * hit.distance, Color.yellow);
-
             if (hit.transform.CompareTag("Zombie"))
             {
                 particleSystem.Play();
                 particleSystem.Simulate(10);
                 particleSystem.playbackSpeed = 0.5f;
                 lazerLight.enabled = true;
-                halo.gameObject.SetActive(true); 
+                halo.gameObject.SetActive(true);
             }
             else
             {

@@ -214,6 +214,7 @@ MonoBehaviour:
   isDead: 0
   isPlayerHit: 0
   imageEffect: {fileID: 0}
+  disableWhenDead: {fileID: 570613670}
 --- !u!95 &2944291017048673264
 Animator:
   serializedVersion: 3

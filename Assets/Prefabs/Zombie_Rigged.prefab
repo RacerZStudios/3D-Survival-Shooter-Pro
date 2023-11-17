@@ -473,6 +473,7 @@ MonoBehaviour:
   isDead: 0
   isPlayerHit: 0
   imageEffect: {fileID: 0}
+  disableWhenDead: {fileID: 4595891741789672772}
 --- !u!1 &8562877595507379619
 GameObject:
   m_ObjectHideFlags: 0

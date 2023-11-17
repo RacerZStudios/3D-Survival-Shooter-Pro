@@ -141,20 +141,24 @@ public class ExplosiveBarrel : MonoBehaviour
 
     private IEnumerator TimerRed()
     {
-        isRed = true; 
-        fuseTime++; 
-        if(fuseTime >= 3)
+        isRed = true;
+        while (isRed == true)
         {
-            StartCoroutine(FireParticleSpawn()); 
-            if(initparticleRed == true && isRed == true)
+            fuseTime++;
+            if (fuseTime >= 3)
             {
-                explode = true;
-                if (explosionParticleRed == true)
+                StartCoroutine(FireParticleSpawn());
+                if (initparticleRed == true && isRed == true)
                 {
-                    initparticleRed = false; 
-                    yield return new WaitForSeconds(1f);
+                    explode = true;
+                    if (explosionParticleRed == true)
+                    {
+                        initparticleRed = false;
+                        yield return new WaitForSeconds(1f);
+                    }
                 }
-            }        
+            }
+            yield break;
         }
     }
 
@@ -192,6 +196,7 @@ public class ExplosiveBarrel : MonoBehaviour
     private IEnumerator ExplosionParticleRed()
     {
         explode = true;
+        isRed = false; 
         particleSystems[1].gameObject.SetActive(true);
         particleSystems[1].Simulate(1, true, true);
         particleSystems[1].Play();

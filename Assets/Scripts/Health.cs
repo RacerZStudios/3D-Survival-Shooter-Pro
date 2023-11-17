@@ -21,6 +21,9 @@ public class Health : MonoBehaviour
     [SerializeField]
     private Image imageEffect;
 
+    [SerializeField]
+    private GameObject disableWhenDead; 
+
     private void Awake()
     {
         imageEffect = GameObject.Find("Image").GetComponent<Image>();
@@ -53,12 +56,20 @@ public class Health : MonoBehaviour
     public void Damage(int damageAmount)
     {
         currentHealh -= damageAmount;
-        isPlayerHit = true;
+        if(damageAmount < currentHealh && this.gameObject.CompareTag("Player"))
+        {
+            isPlayerHit = true;
+        }
+        else 
+        {
+            isPlayerHit = false; 
+        }
+
         if (isPlayerHit == true && this.gameObject.CompareTag("Player"))
         {
             StartCoroutine(FadeColor());
         }
-        else if (isPlayerHit == false)
+        else if (isPlayerHit == false && this.gameObject.CompareTag("Player"))
         {
             isPlayerHit = false;
             StopCoroutine(FadeColor()); 
@@ -74,7 +85,7 @@ public class Health : MonoBehaviour
                 anim.SetBool("Idle", false);
                 StartCoroutine(WaitToDisable());
 
-                if(gameObject.tag == "Player" && isDead == true)
+                if(this.gameObject.CompareTag("Player") && isDead == true)
                 {
                     GameObject.Find("Player").GetComponent<CharacterController>().enabled = false;
                     GameObject.Find("Baretta").GetComponent<Barreta_Pistol_Fire>().enabled = false;
@@ -98,8 +109,8 @@ public class Health : MonoBehaviour
 
     private IEnumerator WaitToDisable()
     {
-        isPlayerHit = false;
         yield return new WaitForSeconds(8);
+        this.gameObject.GetComponentInChildren<AttackTrigger>().GetComponent<AttackTrigger>().enabled = false; 
         this.gameObject.GetComponentInChildren<AttackTrigger>().GetComponent<SphereCollider>().enabled = false;
         this.gameObject.GetComponentInChildren<AttackTrigger>().GetComponent<CapsuleCollider>().enabled = false;
         this.gameObject.GetComponentInParent<CharacterController>().detectCollisions = false;
