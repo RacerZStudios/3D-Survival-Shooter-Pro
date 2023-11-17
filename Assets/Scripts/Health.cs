@@ -1,7 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.UI;
-using UnityEngine.SceneManagement; 
+using UnityEngine.SceneManagement;
+using UnityEngine.AI;
 using UnityEngine;
 
 public class Health : MonoBehaviour
@@ -60,7 +61,7 @@ public class Health : MonoBehaviour
         {
             isPlayerHit = true;
         }
-        else 
+        else if(currentHealh <= maxHealth)
         {
             isPlayerHit = false; 
         }
@@ -110,16 +111,20 @@ public class Health : MonoBehaviour
     private IEnumerator WaitToDisable()
     {
         yield return new WaitForSeconds(8);
+        this.gameObject.GetComponentInParent<EnemyAI>().enabled = false; 
         this.gameObject.GetComponentInChildren<AttackTrigger>().GetComponent<AttackTrigger>().enabled = false; 
         this.gameObject.GetComponentInChildren<AttackTrigger>().GetComponent<SphereCollider>().enabled = false;
         this.gameObject.GetComponentInChildren<AttackTrigger>().GetComponent<CapsuleCollider>().enabled = false;
         this.gameObject.GetComponentInParent<CharacterController>().detectCollisions = false;
+        this.gameObject.GetComponentInParent<NavMeshAgent>().enabled = false;
+        this.gameObject.GetComponentInParent<CharacterController>().enabled = false;
         anim.enabled = false;
     }
 
     private IEnumerator FadeColor()
     {
         // Debug.Log("Taking Damage");
+       // isPlayerHit = true; 
         imageEffect.CrossFadeAlpha(0, 0, true);
         imageEffect.fillAmount = 30;
         imageEffect.color = new Color(255, 113, 0, 0);
@@ -129,6 +134,7 @@ public class Health : MonoBehaviour
 
     private IEnumerator StopFadeColor()
     {
+       // isPlayerHit = false; 
         imageEffect.fillAmount = 0;
         imageEffect.color = new Color(5, 0, 0, 1);
         imageEffect.CrossFadeAlpha(0.1f, 0.1f, false);

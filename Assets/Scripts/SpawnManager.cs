@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine.UI; 
 using UnityEngine;
 
@@ -22,5 +23,28 @@ public class SpawnManager : MonoBehaviour
     {
         zombiesToSpawn = amount;
         zombiesToKill.GetComponent<Text>().text = " Zombies to Kill = 13 ";
+
+        StartCoroutine(FindObjects()); 
+
+        if(this.gameObject.activeInHierarchy)
+        {
+            StopCoroutine(FindObjects());
+            Destroy(this); 
+        }
+    }
+
+    private IEnumerator FindObjects()
+    {
+        foreach (var go in FindObjectsOfType(typeof(GameObject)) as GameObject[])
+        {
+            if (go.name == "New Game Object")
+            {
+                if(this.gameObject.activeInHierarchy)
+                {
+                    Destroy(go);
+                }
+            }
+        }
+        yield break;  
     }
 }

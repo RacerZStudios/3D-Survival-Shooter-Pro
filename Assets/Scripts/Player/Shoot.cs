@@ -54,7 +54,7 @@ public class Shoot : MonoBehaviour
     public void AddScore()
     {
         score += 1;
-        text.text = score.ToString() + "Kills"; 
+       // text.text = score.ToString() + " Remaining Kills" + count; 
     }
 
     private void Update()
