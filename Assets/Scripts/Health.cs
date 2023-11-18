@@ -14,6 +14,8 @@ public class Health : MonoBehaviour
     private int minHealth = 0;
     [SerializeField]
     protected int currentHealh;
+    [SerializeField]
+    private Text healthText; 
 
     private Animator anim;
     public bool isDead = false;
@@ -33,7 +35,11 @@ public class Health : MonoBehaviour
     private void Start()
     {
         maxHealth = currentHealh;
-        anim = GetComponentInParent<Animator>(); 
+        anim = GetComponentInParent<Animator>();
+        if(healthText != null && this.gameObject.CompareTag("Player"))
+        {
+            healthText.GetComponent<Text>();
+        }
     }
 
     private void LateUpdate()
@@ -60,6 +66,8 @@ public class Health : MonoBehaviour
         if(damageAmount < currentHealh && this.gameObject.CompareTag("Player"))
         {
             isPlayerHit = true;
+            healthText.text = "Health: " + currentHealh;
+            healthText.text = "Health:" + currentHealh.ToString(); 
         }
         else if(currentHealh <= maxHealth)
         {
@@ -142,5 +150,19 @@ public class Health : MonoBehaviour
         imageEffect.CrossFadeAlpha(0, 0, true);
         imageEffect.fillAmount = 30;
         imageEffect.color = new Color(255, 113, 0, 0);
+    }
+
+    private void OnControllerColliderHit(ControllerColliderHit hit)
+    {
+        if (hit.gameObject.name == "Health")
+        {
+            currentHealh += 5;
+            if(currentHealh >= 100)
+            {
+                currentHealh = 100;
+            }
+
+            Destroy(hit.gameObject);
+        }
     }
 }

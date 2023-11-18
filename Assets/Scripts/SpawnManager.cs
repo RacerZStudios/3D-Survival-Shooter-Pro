@@ -29,7 +29,8 @@ public class SpawnManager : MonoBehaviour
         if(this.gameObject.activeInHierarchy)
         {
             StopCoroutine(FindObjects());
-            Destroy(this); 
+            // Declared Destroy method removes any data stored in memory after Update() 
+            Destroy(this);
         }
     }
 
