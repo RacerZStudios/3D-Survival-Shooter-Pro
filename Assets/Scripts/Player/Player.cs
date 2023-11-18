@@ -95,9 +95,9 @@ public class Player : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.R) && ammoPickUp == true)
         {
             ammoSupply.GetComponent<GunAmmo>().Ammo += 10;
-            ammoSupply.GetComponent<GunAmmo>().ammoText.text = ammoSupply.ToString();
             if(ammoPickUp == true)
             {
+                ammoSupply.GetComponent<GunAmmo>().ammoText.text = "Current Ammo = " + ammoSupply.GetComponent<GunAmmo>().Ammo;
                 ammoPickUp = false; 
             }
         }
@@ -177,8 +177,18 @@ public class Player : MonoBehaviour
         if (hit.gameObject.name == "Cube")
         {
             ammoPickUp = true;
-           // Debug.Log("Cube");
+            // Debug.Log("Cube");
+            GetPickUp(); 
             Destroy(hit.gameObject);
         }
     } 
+
+    void GetPickUp()
+    {
+        if(ammoPickUp == true)
+        {
+            ammoSupply.GetComponent<GunAmmo>().ammoText.text = "Ammo Picked Up" + "(R)eload";
+            return; 
+        }
+    }
 }
