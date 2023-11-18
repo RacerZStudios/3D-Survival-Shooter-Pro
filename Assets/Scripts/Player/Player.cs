@@ -86,10 +86,9 @@ public class Player : MonoBehaviour
 
         if (power1.p1Restored == true && power2.p2Restored == true && power3.p3Restored == true)
         {
-            Cursor.lockState = CursorLockMode.None;
-            SceneManager.LoadScene(0);
-            // return to main menu 
+            SceneManager.LoadScene(2);
             // end game 
+            // return to main menu 
         }
 
         if (Input.GetKeyDown(KeyCode.R) && ammoPickUp == true)

@@ -7,7 +7,7 @@ public class Lazer : MonoBehaviour
     [SerializeField]
     public Transform lazerPos;
     [SerializeField]
-    public ParticleSystem particleSystem;
+    public ParticleSystem enemyTracking;
 
     [SerializeField]
     public Light lazerLight;
@@ -115,18 +115,19 @@ public class Lazer : MonoBehaviour
         {
             if (hit.transform.CompareTag("Zombie"))
             {
-                particleSystem.Play();
-                particleSystem.Simulate(10);
-                particleSystem.playbackSpeed = 0.5f;
+                enemyTracking.Play();
+                enemyTracking.Simulate(10);
+                enemyTracking.main.simulationSpeed.Equals(0.5f);
+                enemyTracking.Emit(10);
                 lazerLight.enabled = true;
                 halo.gameObject.SetActive(true);
             }
             else
             {
-                particleSystem.Clear();
-                particleSystem.Stop();
-                particleSystem.Simulate(0);
-                particleSystem.playbackSpeed = 0.0f;
+                enemyTracking.Clear();
+                enemyTracking.Stop();
+                enemyTracking.Simulate(0);
+                enemyTracking.main.simulationSpeed.Equals(0);
             }
         }
     }
