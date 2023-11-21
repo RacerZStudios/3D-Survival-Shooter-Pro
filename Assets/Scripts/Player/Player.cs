@@ -173,10 +173,9 @@ public class Player : MonoBehaviour
 
     private void OnControllerColliderHit(ControllerColliderHit hit)
     {
-        if (hit.gameObject.name == "Cube")
+        if (hit.gameObject.name == "Cube") // Ammo Pickup 
         {
             ammoPickUp = true;
-            // Debug.Log("Cube");
             GetPickUp(); 
             Destroy(hit.gameObject);
         }

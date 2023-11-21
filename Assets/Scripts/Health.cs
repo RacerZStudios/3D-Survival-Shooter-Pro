@@ -87,7 +87,6 @@ public class Health : MonoBehaviour
         if(currentHealh <= minHealth)
         {
             isDead = true; 
-            // Debug.Log(gameObject.name + ToString()); 
             if(isDead == true)
             {
                 anim.SetTrigger("Dead");
@@ -131,8 +130,6 @@ public class Health : MonoBehaviour
 
     private IEnumerator FadeColor()
     {
-        // Debug.Log("Taking Damage");
-       // isPlayerHit = true; 
         imageEffect.CrossFadeAlpha(0, 0, true);
         imageEffect.fillAmount = 30;
         imageEffect.color = new Color(255, 113, 0, 0);
@@ -142,7 +139,6 @@ public class Health : MonoBehaviour
 
     private IEnumerator StopFadeColor()
     {
-       // isPlayerHit = false; 
         imageEffect.fillAmount = 0;
         imageEffect.color = new Color(5, 0, 0, 1);
         imageEffect.CrossFadeAlpha(0.1f, 0.1f, false);

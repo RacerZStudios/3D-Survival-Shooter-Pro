@@ -85,21 +85,6 @@ public class ExplosiveBarrel : MonoBehaviour
 
     private IEnumerator TimerRed()
     {
-        //isRed = true;
-        //while (isRed == true)
-        //{
-        //    fuseTime++;
-        //    if (fuseTime >= 3)
-        //    {
-        //        StartCoroutine(FireParticleSpawnRed());
-
-        //        if (initparticleRed == true && isRed == true)
-        //        {
-        //            StartCoroutine(ExplosionParticleRed()); 
-        //        }
-        //    }
-        //    yield break;
-        //}
         isRed = true;
         fuseTime++;
         if (fuseTime >= 3)
@@ -140,7 +125,6 @@ public class ExplosiveBarrel : MonoBehaviour
         explode = true;
         isRed = false;
         zombieDead = true;
-        Debug.Log(zombieDead);
         if (gameObject != null && zombieDead == true)
         {
             Collider[] contacts = Physics.OverlapSphere(transform.position, 15);
@@ -149,7 +133,6 @@ public class ExplosiveBarrel : MonoBehaviour
             {
                 if (collider.CompareTag("Zombie") && zombieDead == true)
                 {
-                    Debug.Log(collider.gameObject);
                     // play dead animation Zombie 
                     zombieDead = true;
                     if (zombieDead == true)

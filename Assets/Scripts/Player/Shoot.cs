@@ -44,7 +44,6 @@ public class Shoot : MonoBehaviour
     public void AddScore()
     {
         score += 1;
-       // text.text = score.ToString() + " Remaining Kills" + count; 
     }
 
     private void Update()
@@ -64,7 +63,6 @@ public class Shoot : MonoBehaviour
         {
             if (Physics.Raycast(ray, out hit, Mathf.Infinity, 1 << 8 | 1 << 0)) // << bit shift operator and | or both layers masks 
             {
-               // Debug.Log(hit.collider.name + "Hit");
                 Health health = hit.collider.GetComponent<Health>();
                 if (health != null)
                 {
@@ -78,19 +76,15 @@ public class Shoot : MonoBehaviour
                     patrol.isHit = true;
                     patrol.GetComponent<Animator>().SetTrigger("Hit");
                     // check how many times hit
-                    // Debug.Log(5, health);
                     if (Input.GetKeyDown(KeyCode.Mouse0))
                     {
                         numPress++;
                         if (numPress >= 5)
                         {
-                            //  Debug.Log("Reached 5");
                             if (numPress >= 5 && health != null)
                             {
                                 health.Damage(100);
                                 patrol.GetComponent<Animator>().SetTrigger("Dead");
-
-                                // Destroy(GameObject.Find("Zombie_Rigged"), 3);
                             }
                         }
                     }
@@ -103,14 +97,12 @@ public class Shoot : MonoBehaviour
                             if(count == 0 || count != 0)
                             {
                                 count++;
-                               // Debug.Log(count);
                                 shootManager.AddScore(); 
                             }
 
                             if (text != null)
                             {
                                 newText.text = " Zombies Killed: " + score.ToString();
-                               // Debug.Log("AIDead");
                             }
                         }
                         EnemyAI enemyAI = FindObjectOfType<EnemyAI>();
@@ -121,7 +113,6 @@ public class Shoot : MonoBehaviour
 
                 else if (hit.collider.tag == "E_Barrel")
                 {
-                    Debug.Log(hit + "red");
                     ExplosiveBarrel barrel = FindObjectOfType<ExplosiveBarrel>();
                     if(barrel != null)
                     {
@@ -131,7 +122,6 @@ public class Shoot : MonoBehaviour
                 }
                 else if (hit.collider.tag == "F_Barrel")
                 {
-                    Debug.Log(hit + "yellow");
                     ExplosiveBarrel barrel = FindObjectOfType<ExplosiveBarrel>();
                     if(barrel != null)
                     {

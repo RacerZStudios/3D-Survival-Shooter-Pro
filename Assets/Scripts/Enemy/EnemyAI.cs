@@ -121,10 +121,6 @@ public class EnemyAI : MonoBehaviour
     public bool isDead()
     {
         Shoot shot = FindObjectOfType<Shoot>();
-        if(shot.dead == true)
-        {
-           // Debug.Log("Dead"); 
-        }
 
         return true; 
     }

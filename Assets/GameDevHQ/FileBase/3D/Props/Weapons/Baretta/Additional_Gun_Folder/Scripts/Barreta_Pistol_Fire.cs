@@ -38,7 +38,6 @@ public class Barreta_Pistol_Fire : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Mouse0))
         {
-            // Debug.Log("Shoot gun");
             semiAuto = true;
             _anim.SetBool("Automatic_Fire", false);
             FireGunParticles();
@@ -65,7 +64,6 @@ public class Barreta_Pistol_Fire : MonoBehaviour
             _anim.SetTrigger("Idle"); 
         }
 
-        // modified by zac 
         if(Input.GetKeyDown(KeyCode.R))
         {
             _anim.SetTrigger("Reload"); 
@@ -76,7 +74,6 @@ public class Barreta_Pistol_Fire : MonoBehaviour
     {
         if(fullAuto == false)
         {
-            // Debug.Log("Fired gun particles");
             _smoke.Play();
             _bulletCasing.Play();
             _muzzleFlashSide.Play();
