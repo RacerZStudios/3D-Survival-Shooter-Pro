@@ -45,9 +45,19 @@ public class Player : MonoBehaviour
 
     public bool ammoPickUp;
 
+    private int wins = 0;
+
+    public bool isWin = false; 
+
+    public Text winStreak; 
+
     private void Start()
     {
-        ammoPickUp = false; 
+        winStreak = FindObjectOfType<Text>(); 
+
+        ammoPickUp = false;
+
+        isWin = false; 
 
         // lock cursor when game starts v
         Cursor.lockState = CursorLockMode.Locked;
@@ -84,8 +94,10 @@ public class Player : MonoBehaviour
             Cursor.lockState = CursorLockMode.Locked;
         }
 
-        if (power1.p1Restored == true && power2.p2Restored == true && power3.p3Restored == true)
+        if (power1.p1Restored == true || power2.p2Restored == true && power3.p3Restored == true)
         {
+            isWin = true; 
+            GetWinStreak(); 
             SceneManager.LoadScene(2);
             // end game 
             // return to main menu 
@@ -187,6 +199,19 @@ public class Player : MonoBehaviour
         {
             ammoSupply.GetComponent<GunAmmo>().ammoText.text = "Ammo Picked Up" + "(R)eload";
             return; 
+        }
+    }
+
+    void GetWinStreak()
+    {
+        if(isWin == true)
+        {
+            wins++;
+        }
+        if(winStreak != null)
+        {
+            winStreak.text += winStreak.text + "Win Streak = " + wins;
+           // Debug.Log(wins); 
         }
     }
 }

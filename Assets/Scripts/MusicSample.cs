@@ -11,14 +11,31 @@ public class MusicSample : MonoBehaviour
 
     public bool isMusicActive;
 
-    private void Update()
+    private static MusicSample musicInstance;
+
+    private void OnEnable()
     {
-        if(Input.GetKeyDown(KeyCode.R) && source.isActiveAndEnabled)
+        if (source.isActiveAndEnabled)
         {
             source.Play();
             DontDestroyOnLoad(this);
         }
+    }
 
+    private void Awake()
+    {
+        if(musicInstance != null && musicInstance != this)
+        {
+            Destroy(gameObject); 
+        }
+        else
+        {
+            musicInstance = this; 
+        }
+    }
+
+    private void Update()
+    {
         if (Input.GetKeyDown(KeyCode.P) && isActive == false && source != null)
         {
             isActive = true;
