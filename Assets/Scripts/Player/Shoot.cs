@@ -18,12 +18,7 @@ public class Shoot : MonoBehaviour
     private int numPress;
 
     [SerializeField]
-    public ExplosiveBarrel[] barrel;
-
-    [SerializeField]
     private const int numExplosive = 3;
-
-    public bool red, yellow, green;
 
     [SerializeField]
     public Text text;
@@ -126,31 +121,23 @@ public class Shoot : MonoBehaviour
 
                 else if (hit.collider.tag == "E_Barrel")
                 {
-                    red = true;
-                    // Debug.Log(hit);
-                    ExplosiveBarrel g = FindObjectOfType<ExplosiveBarrel>();
-                    // g.transform.position = hit.transform.position; 
-                    for (int i = 0; i < numExplosive; i++)
+                    Debug.Log(hit + "red");
+                    ExplosiveBarrel barrel = FindObjectOfType<ExplosiveBarrel>();
+                    if(barrel != null)
                     {
-                        if (red == true)
-                        {
-                            g.ExplodeRed();
-                        }
+                        barrel.ExplodeRed();
                     }
+                    return; 
                 }
                 else if (hit.collider.tag == "F_Barrel")
                 {
-                    yellow = true;
-                    // Debug.Log(hit);
-                    ExplosiveBarrel f = FindObjectOfType<ExplosiveBarrel>();
-                    // g.transform.position = hit.transform.position; 
-                    for (int i = 0; i < numExplosive; i++)
+                    Debug.Log(hit + "yellow");
+                    ExplosiveBarrel barrel = FindObjectOfType<ExplosiveBarrel>();
+                    if(barrel != null)
                     {
-                        if (yellow == true)
-                        {
-                            f.ExplodeYellow();
-                        }
+                        barrel.ExplodeYellow();
                     }
+                    return; 
                 }
             }
         }

@@ -16,6 +16,10 @@ PrefabInstance:
       value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 2093808097932936236, guid: 8f55d23fac06a7a4aaac48304d295be5, type: 3}
+      propertyPath: playOnAwake
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2093808097932936236, guid: 8f55d23fac06a7a4aaac48304d295be5, type: 3}
       propertyPath: ShapeModule.type
       value: 10
       objectReference: {fileID: 0}
@@ -114,6 +118,10 @@ PrefabInstance:
     - target: {fileID: 5774716360317986514, guid: 8f55d23fac06a7a4aaac48304d295be5, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5929921296641665337, guid: 8f55d23fac06a7a4aaac48304d295be5, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7629333320865482311, guid: 8f55d23fac06a7a4aaac48304d295be5, type: 3}
       propertyPath: playOnAwake

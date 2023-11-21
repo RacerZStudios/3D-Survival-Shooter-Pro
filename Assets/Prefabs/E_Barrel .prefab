@@ -26,7 +26,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4869750500871599622}
   m_LocalRotation: {x: -0.7071068, y: 0, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: 0, z: 0.67}
+  m_LocalPosition: {x: 0.48, y: -0, z: -0.27}
   m_LocalScale: {x: 2, y: 2, z: 2}
   m_Children: []
   m_Father: {fileID: 5774716360317986514}
@@ -4921,12 +4921,16 @@ MonoBehaviour:
   particleSystems:
   - {fileID: 7629333320865482311}
   - {fileID: 2093808097932936236}
-  initparticle: 0
-  explosionParticle: 0
+  initparticleRed: 0
+  explosionParticleRed: 0
+  initparticleYellow: 0
+  explosionParticleYellow: 0
   explosiveBarrel:
   - {fileID: 5774716360317986350}
   fuseTime: 0
   explode: 0
+  isRed: 0
+  isYellow: 0
 --- !u!54 &5324395090896372506
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -4991,7 +4995,7 @@ ParticleSystem:
   ringBufferLoopRange: {x: 0, y: 1}
   looping: 0
   prewarm: 0
-  playOnAwake: 1
+  playOnAwake: 0
   useUnscaledTime: 0
   autoRandomSeed: 1
   useRigidbodyForVelocity: 1

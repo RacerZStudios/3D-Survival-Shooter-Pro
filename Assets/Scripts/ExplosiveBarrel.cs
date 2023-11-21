@@ -28,27 +28,13 @@ public class ExplosiveBarrel : MonoBehaviour
 
     private static int barrelCount = 6;
 
-    private void Awake()
-    {
-        if (barrel != null)
-        {
-            barrel = gameObject;
-            mat = barrel.GetComponent<MeshRenderer>(); 
-            rb = GetComponent<Rigidbody>();
-            particleSystems[0] = GetComponentInChildren<ParticleSystem>();
-            particleSystems[0] = GameObject.Find("Init_Flame").GetComponent<ParticleSystem>();
-            particleSystems[1] = GetComponentInChildren<ParticleSystem>();
-            particleSystems[1] = GameObject.Find("Explosion").GetComponent<ParticleSystem>();
-            if (particleSystems[1].gameObject.activeInHierarchy == true)
-            {
-                particleSystems[1].gameObject.SetActive(false);
-                particleSystems[0].gameObject.SetActive(true);
-            }
-        }
+    private bool zombieDead; 
 
-        foreach(ExplosiveBarrel explosiveBarrel in explosiveBarrel)
+    private void OnEnable()
+    {
+        foreach (ExplosiveBarrel explosiveBarrel in explosiveBarrel)
         {
-            if(barrel != null)
+            if (barrel != null)
             {
                 explosiveBarrel.explosiveBarrel.Clone().Equals(barrel);
             }
@@ -73,6 +59,8 @@ public class ExplosiveBarrel : MonoBehaviour
         Gizmos.DrawSphere(transform.position, 45); 
     }
 
+    // Red Barrel 
+
     public void ExplodeRed()
     {
         StartCoroutine(TimerRed());
@@ -85,19 +73,8 @@ public class ExplosiveBarrel : MonoBehaviour
                 g.transform.parent = transform;
 
                 StartCoroutine(ExplosionParticleRed()); 
-                if (gameObject != null)
-                {
-                    Collider[] contacts = Physics.OverlapSphere(transform.position, 15);
 
-                    foreach (Collider collider in contacts)
-                    {
-                        if (collider.CompareTag("Zombie"))
-                        {
-                            // play dead animation Zombie 
-                            collider.gameObject.GetComponent<Animator>().SetTrigger("Dead"); 
-                        }
-                    }
-                }
+              
             }
             else if (gameObject == null)
             {
@@ -105,6 +82,94 @@ public class ExplosiveBarrel : MonoBehaviour
             }
         }
     }
+
+    private IEnumerator TimerRed()
+    {
+        //isRed = true;
+        //while (isRed == true)
+        //{
+        //    fuseTime++;
+        //    if (fuseTime >= 3)
+        //    {
+        //        StartCoroutine(FireParticleSpawnRed());
+
+        //        if (initparticleRed == true && isRed == true)
+        //        {
+        //            StartCoroutine(ExplosionParticleRed()); 
+        //        }
+        //    }
+        //    yield break;
+        //}
+        isRed = true;
+        fuseTime++;
+        if (fuseTime >= 3)
+        {
+            StartCoroutine(FireParticleSpawnRed());
+            if (initparticleRed == true && isRed == true)
+            {
+                explosionParticleRed = true;
+                if (explosionParticleRed == true)
+                {
+                    initparticleRed = false;
+                    yield return new WaitForSeconds(1f);
+                }
+            }
+        }
+    }
+
+    private IEnumerator FireParticleSpawnRed()
+    {
+        initparticleRed = true;
+        if (particleSystems[0] != null)
+        {
+            particleSystems[0].Clear();
+            particleSystems[0].Play();
+        }
+        GetComponent<Renderer>().material.color = Color.red;
+
+        yield return new WaitForSeconds(4f);
+
+        initparticleRed = false;
+        explosionParticleRed = true;
+        StartCoroutine(ExplosionParticleRed()); 
+    }
+
+    private IEnumerator ExplosionParticleRed()
+    {
+        yield return new WaitForSeconds(4); 
+        explode = true;
+        isRed = false;
+        zombieDead = true;
+        Debug.Log(zombieDead);
+        if (gameObject != null && zombieDead == true)
+        {
+            Collider[] contacts = Physics.OverlapSphere(transform.position, 15);
+
+            foreach (Collider collider in contacts)
+            {
+                if (collider.CompareTag("Zombie") && zombieDead == true)
+                {
+                    Debug.Log(collider.gameObject);
+                    // play dead animation Zombie 
+                    zombieDead = true;
+                    if (zombieDead == true)
+                    {
+                        collider.gameObject.GetComponent<Animator>().SetTrigger("Dead");
+                    }
+                }
+            }
+        }
+        particleSystems[1].gameObject.SetActive(true);
+        particleSystems[1].Simulate(1, true, true);
+        particleSystems[1].Play();
+        particleSystems[1].Emit(10);
+        rb.AddExplosionForce(35, transform.position, 25, 35);
+        explosionParticleRed = false;
+        yield return new WaitForEndOfFrame();
+        Destroy(gameObject, 2f);
+    }
+
+    // Yellow Barrel 
 
     public void ExplodeYellow()
     {
@@ -115,9 +180,10 @@ public class ExplosiveBarrel : MonoBehaviour
             if (explosionParticleYellow == true)
             {
                 GameObject f = barrel.gameObject;
-                f.transform.parent = transform; 
+                f.transform.parent = transform;
 
                 StartCoroutine(ExplosionParticleYellow());
+
                 if (gameObject != null)
                 {
                     Collider[] contacts = Physics.OverlapSphere(transform.position, 25);
@@ -136,29 +202,6 @@ public class ExplosiveBarrel : MonoBehaviour
             {
                 Debug.LogError("Particle System Destroyed");
             }
-        }
-    }
-
-    private IEnumerator TimerRed()
-    {
-        isRed = true;
-        while (isRed == true)
-        {
-            fuseTime++;
-            if (fuseTime >= 3)
-            {
-                StartCoroutine(FireParticleSpawn());
-                if (initparticleRed == true && isRed == true)
-                {
-                    explode = true;
-                    if (explosionParticleRed == true)
-                    {
-                        initparticleRed = false;
-                        yield return new WaitForSeconds(1f);
-                    }
-                }
-            }
-            yield break;
         }
     }
 
@@ -181,41 +224,19 @@ public class ExplosiveBarrel : MonoBehaviour
         }
     }
 
-    private IEnumerator FireParticleSpawn()
-    {
-        initparticleRed = true;
-        particleSystems[0].Clear();
-        particleSystems[0].Play();
-        mat.material.color = Color.red;
-        yield return new WaitForSeconds(4f);
-        initparticleRed = false;
-        explosionParticleRed = true;
-        
-    }
-
-    private IEnumerator ExplosionParticleRed()
-    {
-        explode = true;
-        isRed = false; 
-        particleSystems[1].gameObject.SetActive(true);
-        particleSystems[1].Simulate(1, true, true);
-        particleSystems[1].Play();
-        particleSystems[1].Emit(10);
-        rb.AddExplosionForce(35, transform.position, 25, 35);
-        explosionParticleRed = false;
-        yield return new WaitForEndOfFrame();
-        Destroy(gameObject, 2f);         
-    }
-
     private IEnumerator FireParticleSpawnYellow()
     {
-        initparticleYellow = true; 
-        particleSystems[0].Clear();
-        particleSystems[0].Play();
-        mat.material.color = Color.blue;
+        initparticleYellow = true;
+        if (particleSystems[0] != null)
+        {
+            particleSystems[0].Clear();
+            particleSystems[0].Play();
+        }
+        GetComponent<Renderer>().material.color = Color.blue;
         yield return new WaitForSeconds(6f);
         initparticleYellow = false;
-        explosionParticleYellow = true;        
+        explosionParticleYellow = true;
+       // StartCoroutine(ExplosionParticleYellow()); 
     }
 
     private IEnumerator ExplosionParticleYellow()

@@ -57,18 +57,17 @@ public class Lazer : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.T))
         {
+            isActive = true;
             i += 1;
             if (i > 0 && i < 2)
             {
-                isActive = true;
                 halo.gameObject.SetActive(true);
                 lazer.gameObject.SetActive(true);
                 UpdateLazer();
                 i += 1;
-                return;
             }
         }
-        if (Input.GetKeyDown(KeyCode.T) && isActive == true)
+        if (Input.GetKeyDown(KeyCode.T))
         {
             if (i > 0 && i > 2)
             {
@@ -84,32 +83,7 @@ public class Lazer : MonoBehaviour
 
     void FixedUpdate()
     {
-        //Vector3 centerPos = new Vector3(0.5f, 0.5f, 0);
-        //RaycastHit hit;
-        //Ray ray = Camera.main.ViewportPointToRay(centerPos);
-
-        //if (Physics.Raycast(lazerPos.transform.position, transform.TransformDirection(Vector3.forward), out hit, Mathf.Infinity))
-        //{
-        //    Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.forward) * hit.distance * 5, Color.yellow);
-
-        //    if (hit.transform.CompareTag("Zombie"))
-        //    {
-        //        particleSystem.Play();
-        //        particleSystem.Simulate(10);
-        //        particleSystem.playbackSpeed = 0.5f;
-        //        lazerLight.enabled = true;
-        //        halo.gameObject.SetActive(true); 
-        //    }
-        //    else
-        //    {
-        //        particleSystem.Clear();
-        //        particleSystem.Stop();
-        //        particleSystem.Simulate(0);
-        //        particleSystem.playbackSpeed = 0.0f;
-        //    }
-        //}
-
-        Ray ray = new Ray(transform.position, transform.forward);
+        Ray ray = Camera.main.ScreenPointToRay(Vector3.forward); 
         RaycastHit hit;
         if (Physics.Raycast(ray, out hit, 100))
         {
