@@ -45,7 +45,7 @@ public class Player : MonoBehaviour
 
     public bool ammoPickUp;
 
-    private int wins = 0;
+    private static int wins = 0;
 
     public bool isWin = false; 
 
@@ -94,10 +94,11 @@ public class Player : MonoBehaviour
             Cursor.lockState = CursorLockMode.Locked;
         }
 
-        if (power1.p1Restored == true || power2.p2Restored == true && power3.p3Restored == true)
+        if (power1.p1Restored == true && power2.p2Restored == true && power3.p3Restored == true)
         {
             isWin = true; 
-            GetWinStreak(); 
+            GetWinStreak();
+            winStreak.text = "Win Streak " + wins;
             SceneManager.LoadScene(2);
             // end game 
             // return to main menu 
@@ -206,12 +207,11 @@ public class Player : MonoBehaviour
     {
         if(isWin == true)
         {
-            wins++;
+            wins += 1;
         }
         if(winStreak != null)
         {
-            winStreak.text += winStreak.text + "Win Streak = " + wins;
-           // Debug.Log(wins); 
+            winStreak.text += "Win Streak = " + wins;
         }
     }
 }
