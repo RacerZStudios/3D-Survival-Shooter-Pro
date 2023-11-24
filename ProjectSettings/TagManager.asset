@@ -8,6 +8,9 @@ TagManager:
   - E_Barrel
   - F_Barrel
   - Projectile
+  - SwitchR
+  - SwitchC
+  - SwitchL
   layers:
   - Default
   - TransparentFX
