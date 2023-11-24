@@ -18,7 +18,7 @@ public class PowerBox : MonoBehaviour
 
     public GameObject textUpdate;
     [SerializeField]
-    private Shoot shoot;
+    public Shoot shoot;
 
     public GameObject switchR;
     public GameObject switchC;
@@ -29,7 +29,7 @@ public class PowerBox : MonoBehaviour
         textUpdate.GetComponent<Text>().text = FindObjectOfType<Text>().text; 
     }
 
-    private void OnTriggerEnter(Collider other)
+    /*private void OnTriggerEnter(Collider other)
     {
         //if(other.gameObject.tag == "Player" && gameObject.name == "R" && textUpdate.GetComponent<Text>().text.Length > 1 && shoot.count > 2)
         //{
@@ -55,7 +55,7 @@ public class PowerBox : MonoBehaviour
         //    p3.SetActive(true);
         //    p3Restored = true;
         //}
-    }
+    }*/
 
     private void OnTriggerStay(Collider other)
     {
@@ -64,10 +64,13 @@ public class PowerBox : MonoBehaviour
             switchR.SetActive(true);
             if (p1Restored == true && gameObject.name == "R" && textUpdate.GetComponent<Text>().text.Length > 1 && shoot.count > 2)
             {
-                r.GetComponent<MeshRenderer>().material.color = Color.clear;
-                l1.SetActive(true);
-                r.GetComponent<ParticleSystem>().Stop();
-                p1.SetActive(true);
+                if(Input.GetKeyDown(KeyCode.E) && p1Restored == true)
+                {
+                    r.GetComponent<MeshRenderer>().material.color = Color.clear;
+                    l1.SetActive(true);
+                    r.GetComponent<ParticleSystem>().Stop();
+                    p1.SetActive(true);
+                }
             }
         }
         if (other.gameObject.tag == "Player" && this.gameObject.name == "C")
@@ -75,10 +78,13 @@ public class PowerBox : MonoBehaviour
             switchC.SetActive(true);
             if (p2Restored == true && gameObject.name == "C" && textUpdate.GetComponent<Text>().text.Length > 1 && shoot.count > 6)
             {
-                c.GetComponent<MeshRenderer>().material.color = Color.clear;
-                l2.SetActive(true);
-                c.GetComponent<ParticleSystem>().Stop();
-                p2.SetActive(true);
+                if (Input.GetKeyDown(KeyCode.E) && p2Restored == true)
+                {
+                    c.GetComponent<MeshRenderer>().material.color = Color.clear;
+                    l2.SetActive(true);
+                    c.GetComponent<ParticleSystem>().Stop();
+                    p2.SetActive(true);
+                }
             }
         }
         if (other.gameObject.tag == "Player" && this.gameObject.name == "L")
@@ -86,10 +92,13 @@ public class PowerBox : MonoBehaviour
             switchL.SetActive(true);
             if (p3Restored == true && gameObject.name == "L" && textUpdate.GetComponent<Text>().text.Length > 1 && shoot.count > 12)
             {
-                l.GetComponent<MeshRenderer>().material.color = Color.clear;
-                l3.SetActive(true);
-                c.GetComponent<ParticleSystem>().Stop();
-                p3.SetActive(true);
+                if (Input.GetKeyDown(KeyCode.E) && p3Restored == true)
+                {
+                    l.GetComponent<MeshRenderer>().material.color = Color.clear;
+                    l3.SetActive(true);
+                    c.GetComponent<ParticleSystem>().Stop();
+                    p3.SetActive(true);
+                }
             }
         }
     }

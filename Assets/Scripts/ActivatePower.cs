@@ -27,25 +27,25 @@ public class ActivatePower : MonoBehaviour
         {
             activatePowerR.gameObject.SetActive(true);
 
-            if (Input.GetKeyDown(KeyCode.E))
+            if (Input.GetKeyDown(KeyCode.E) && p1.shoot.count > 2)
             {
                 p1.p1Restored = true;
             }
         }
-        else if (hit.gameObject.CompareTag("Player") && this.gameObject.tag == "SwitchC")
+        if (hit.gameObject.CompareTag("Player") && this.gameObject.tag == "SwitchC")
         {
             activatePowerC.gameObject.SetActive(true);
 
-            if (Input.GetKeyDown(KeyCode.E))
+            if (Input.GetKeyDown(KeyCode.E) && p2.shoot.count > 6)
             {
                 p2.p2Restored = true;
             }
         }
-        else if (hit.gameObject.CompareTag("Player") && this.gameObject.tag == "SwitchL")
+        if (hit.gameObject.CompareTag("Player") && this.gameObject.tag == "SwitchL")
         {
             activatePowerL.gameObject.SetActive(true);
 
-            if (Input.GetKeyDown(KeyCode.E))
+            if (Input.GetKeyDown(KeyCode.E) && p3.shoot.count > 12)
             {
                 p3.p3Restored = true;
             }
@@ -54,7 +54,7 @@ public class ActivatePower : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
-        if (other.gameObject.CompareTag("Player"))
+        if (other.gameObject.CompareTag("Player") && p1.p1Restored == true)
         {
             if (activatePowerR != null)
             {
@@ -62,9 +62,17 @@ public class ActivatePower : MonoBehaviour
             }
 
             p1Col.enabled = false; 
-            Destroy(activatePowerR.gameObject); 
+
+            if(p1.p1Restored == true)
+            {
+                Destroy(activatePowerR.gameObject);
+            }
         }
-        else if (other.gameObject.CompareTag("Player"))
+        else
+        {
+            p1Col.enabled = true;
+        }
+        if (other.gameObject.CompareTag("Player") && p2.p2Restored == true)
         {
             if (activatePowerC != null)
             {
@@ -72,9 +80,17 @@ public class ActivatePower : MonoBehaviour
             }
 
             p2Col.enabled = false;
-            Destroy(activatePowerC.gameObject);
+
+            if(p2.p2Restored == true)
+            {
+                Destroy(activatePowerC.gameObject);
+            }
         }
-        else if (other.gameObject.CompareTag("Player"))
+        else
+        {
+            p2Col.enabled = true;
+        }
+        if (other.gameObject.CompareTag("Player") && p3.p3Restored == true)
         {
             if (activatePowerL != null)
             {
@@ -82,7 +98,15 @@ public class ActivatePower : MonoBehaviour
             }
 
             p3Col.enabled = false;
-            Destroy(activatePowerL.gameObject);
+
+            if(p3.p3Restored == true)
+            {
+                Destroy(activatePowerL.gameObject);
+            }
+        }
+        else
+        {
+            p3Col.enabled = true;
         }
     }
 }
